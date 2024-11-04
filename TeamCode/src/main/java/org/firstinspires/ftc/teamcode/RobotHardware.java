@@ -34,8 +34,16 @@ public class RobotHardware {
     public static final double SLIDE_UP_POWER = 1.0;
     public static final double SLIDE_DOWN_POWER = -0.50;
 
+    public double SLIDE_TICKS_PER_DEGREE = 28.0 * 60.0 / 360.0;
 
-    public RobotHardware (LinearOpMode OpMode) {myOpMode = OpMode;}
+    public double SLIDE_START = 0.0 * SLIDE_TICKS_PER_DEGREE;
+    public double SLIDE_LOW_BASKET = 360.0 * SLIDE_TICKS_PER_DEGREE;
+    public double SLIDE_HIGH_BASKET = 720.0 * SLIDE_TICKS_PER_DEGREE;
+
+    public double slidePosition = (int)SLIDE_START;
+
+
+    public RobotHardware(LinearOpMode OpMode) {myOpMode = OpMode;}
 
     /**
      * Initialize all the robot's hardware.
@@ -179,7 +187,7 @@ public class RobotHardware {
      * @param offset
      */
 
-    public void setintakePosition(double offset){
+    public void setIntakePosition(double offset){
         if (offset == 1) {
             lextend.setPosition(0.10);
             // max 0.25
