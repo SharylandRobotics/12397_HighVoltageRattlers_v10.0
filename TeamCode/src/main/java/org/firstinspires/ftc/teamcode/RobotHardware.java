@@ -1,32 +1,39 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Range;
+import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 
 public class RobotHardware {
 
     /* Declare OpMode members. */
     private LinearOpMode myOpMode = null;
 
-    private ElapsedTime runtime = null;
+    public ElapsedTime runtime = new ElapsedTime();
 
-    private DcMotor leftFrontDrive = null;
-    private DcMotor leftBackDrive = null;
-    private DcMotor rightFrontDrive = null;
-    private DcMotor rightBackDrive = null;
+    public DcMotor leftFrontDrive = null;
+    public DcMotor leftBackDrive = null;
+    public DcMotor rightFrontDrive = null;
+    public DcMotor rightBackDrive = null;
 
-    private DcMotor armMotor = null;
-    private Servo leftHand = null;
-    private Servo rightHand = null;
+    public DcMotor slideMotor = null;
 
-    public static final double MID_SERVO = 0.5 ;
-    public static final double HAND_SPEED = 0.02 ;
-    public static final double ARM_UP_POWER = 0.45;
-    public static final double ARM_DOWN_POWER = -0.45;
+    private Servo vertical = null;
+    private Servo horizontal1 = null;
+    private Servo horizontal2 = null;
+    private Servo intake = null;
+    private Servo lextend = null;
+    private Servo rextend = null;
+
+    // public static final double MID_SERVO = 0.8 ;
+    public static final double SERVO_UP = 0.90;
+    public static final double SERVO_DOWN = -0.90;
+    public static final double SLIDE_UP_POWER = 1.0;
+    public static final double SLIDE_DOWN_POWER = -0.50;
+
 
     public RobotHardware (LinearOpMode OpMode) {myOpMode = OpMode;}
 
@@ -43,7 +50,7 @@ public class RobotHardware {
         leftBackDrive = myOpMode.hardwareMap.get(DcMotor.class, "left_back_drive");
         rightFrontDrive = myOpMode.hardwareMap.get(DcMotor.class, "right_front_drive");
         rightBackDrive = myOpMode.hardwareMap.get(DcMotor.class, "right_back_drive");
-        armMotor = myOpMode.hardwareMap.get(DcMotor.class, "arm");
+        slideMotor = myOpMode.hardwareMap.get(DcMotor.class, "slide");
 
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point on opposite directions.
         // Pushing the left stick forward MUST make robot go forward. So adjust these two lines based on your first test drive.
@@ -53,11 +60,34 @@ public class RobotHardware {
         rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
         rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
 
+        leftFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        slideMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        ((DcMotorEx) slideMotor).setCurrentAlert(5, CurrentUnit.AMPS);
+
+
+        leftFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftBackDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightBackDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        slideMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        leftFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
         //Define and initialize ALL installed servos.
-        leftHand = myOpMode.hardwareMap.get(Servo.class, "left_hand");
-        rightHand = myOpMode.hardwareMap.get(Servo.class, "right_hand");
-        leftHand.setPosition(MID_SERVO);
-        rightHand.setPosition(MID_SERVO);
+        vertical = myOpMode.hardwareMap.get(Servo.class, "vertical");
+        horizontal1 = myOpMode.hardwareMap.get(Servo.class, "horizontal1");
+        horizontal2 = myOpMode.hardwareMap.get(Servo.class, "horizontal2");
+        intake = myOpMode.hardwareMap.get(Servo.class, "intake");
+        lextend = myOpMode.hardwareMap.get(Servo.class, "lextend");
+        rextend = myOpMode.hardwareMap.get(Servo.class, "rextend");
+
 
         myOpMode.telemetry.addData(">", "Hardware Initialized");
         myOpMode.telemetry.update();
@@ -141,17 +171,48 @@ public class RobotHardware {
      *
      * @param power driving power (-1.0 to 1.0)
      */
-    public void setArmPower(double power) {armMotor.setPower(power); }
+    public void setslidePower(double power) {slideMotor.setPower(power); }
 
     /**
      * Send the two hand-servos to opposing (mirrored) positions, based on the passed offset.
-     *
+     * the extends are what extend the slides
      * @param offset
      */
-    public void setHandPositions(double offset) {
-        offset = Range.clip(offset, -0.5, 0.5);
-        leftHand.setPosition(MID_SERVO + offset);
-        rightHand.setPosition(MID_SERVO - offset);
+
+    public void setintakePosition(double offset){
+        if (offset == 1) {
+            lextend.setPosition(0.10);
+            // max 0.25
+            rextend.setPosition(1);
+            //0.9
+        } else if (offset == 0) {
+            lextend.setPosition(1);
+            rextend.setPosition(0);
+        }
+    }
+
+    /**
+     * Send the two hand-servos to opposing (mirrored) positions, based on the passed offset.
+     * the horizontals are what rotates the intake
+     * @param offset
+     */
+    public void setHorizontalPosition(double offset) {
+        //offset = Range.clip(offset, -0.5, 0.5);
+        if (offset == 1) {
+            horizontal1.setPosition(0.35);
+            // max 0.25
+            horizontal2.setPosition(0.65);
+            //0.9
+        } else if (offset == 0) {
+            horizontal1.setPosition(0.85);
+            horizontal2.setPosition(0.15);
+        }
+    }
+    public void setVerticalPower(double power) {vertical.setPosition(power);}
+
+    public void setIntakePower(double power) {
+
+        intake.setPosition(power);
     }
 }
 
