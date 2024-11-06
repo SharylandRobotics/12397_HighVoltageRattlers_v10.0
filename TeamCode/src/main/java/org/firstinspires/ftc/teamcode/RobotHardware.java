@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
@@ -34,13 +35,13 @@ public class RobotHardware {
     public static final double SLIDE_UP_POWER = 1.0;
     public static final double SLIDE_DOWN_POWER = -0.50;
 
-    public double SLIDE_TICKS_PER_DEGREE = 28.0 * 60.0 / 360.0;
-
-    public double SLIDE_START = 0.0 * SLIDE_TICKS_PER_DEGREE;
-    public double SLIDE_LOW_BASKET = 360.0 * SLIDE_TICKS_PER_DEGREE;
-    public double SLIDE_HIGH_BASKET = 720.0 * SLIDE_TICKS_PER_DEGREE;
-
-    public double slidePosition = (int)SLIDE_START;
+//    public double SLIDE_TICKS_PER_DEGREE = 28.0 * 60.0 / 360.0;
+//
+//    public double SLIDE_START = 0.0 * SLIDE_TICKS_PER_DEGREE;
+//    public double SLIDE_LOW_BASKET = 360.0 * SLIDE_TICKS_PER_DEGREE;
+//    public double SLIDE_HIGH_BASKET = 720.0 * SLIDE_TICKS_PER_DEGREE;
+//
+//    public double slidePosition = (int)SLIDE_START;
 
 
     public RobotHardware(LinearOpMode OpMode) {myOpMode = OpMode;}
@@ -74,19 +75,18 @@ public class RobotHardware {
         rightBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         slideMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        ((DcMotorEx) slideMotor).setCurrentAlert(5, CurrentUnit.AMPS);
 
 
-        leftFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        leftBackDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightBackDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        slideMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        leftFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        leftBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        leftFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        leftBackDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        rightFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        rightBackDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        slideMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//
+//        leftFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        leftBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        rightFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        rightBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         //Define and initialize ALL installed servos.
         vertical = myOpMode.hardwareMap.get(Servo.class, "vertical");
@@ -110,12 +110,12 @@ public class RobotHardware {
      * @param Turn      Right/Left turning power(-1.0 to 1.0) +ve is CW
      * @param Strafe
      */
-    public void driveRobotCentric(double Drive,double Turn, double Strafe){
+    public void driveRobotCentric(double Drive,double Strafe, double Turn){
         //Combine drive and turn for blended motion.
-        double leftFront = Drive + Turn + Strafe;
-        double leftBack = Drive - Turn + Strafe;
-        double rightFront = Drive - Turn - Strafe;
-        double rightBack = Drive + Turn - Strafe;
+        double leftFront = Drive + Strafe + Turn;
+        double leftBack = Drive - Strafe + Turn;
+        double rightFront = Drive - Strafe - Turn;
+        double rightBack = Drive + Strafe -  Turn;
 
         //Scale the values so neither exceed +/-1.0
         double max = Math.max(Math.abs(leftFront), Math.abs(rightFront));
@@ -136,10 +136,10 @@ public class RobotHardware {
 
     public void driveFieldCentric(double Drive,double Turn, double Strafe){
         //Combine drive and turn for blended motion.
-        double leftFront = Drive + Turn + Strafe;
-        double leftBack = Drive - Turn + Strafe;
-        double rightFront = Drive - Turn - Strafe;
-        double rightBack = Drive + Turn - Strafe;
+        double leftFront = Drive + Strafe + Turn;
+        double leftBack = Drive - Strafe + Turn;
+        double rightFront = Drive - Strafe - Turn;
+        double rightBack = Drive + Strafe -  Turn;
 
         //Scale the values so neither exceed +/-1.0
         double max = Math.max(Math.abs(leftFront), Math.abs(rightFront));
@@ -175,11 +175,11 @@ public class RobotHardware {
     }
 
     /**
-     *  Pass the requested arm power to the appropriate hardware drive motor
+     *  Pass the requested slide power to the appropriate hardware drive motor
      *
      * @param power driving power (-1.0 to 1.0)
      */
-    public void setslidePower(double power) {slideMotor.setPower(power); }
+    public void setSlidePower(double power) {slideMotor.setPower(power); }
 
     /**
      * Send the two hand-servos to opposing (mirrored) positions, based on the passed offset.

@@ -56,9 +56,9 @@ public class RobotCentricSolo extends LinearOpMode {
             // Use gamepad buttons to move arm up (Y) and down (A)
             // Use the MOTOR constants defined in RobotHardware class.
             if (gamepad1.y) {
-                vertical = robot.SERVO_UP;
+                vertical = RobotHardware.SERVO_UP;
             } else if (gamepad1.a) {
-                vertical = robot.SERVO_DOWN;
+                vertical = RobotHardware.SERVO_DOWN;
             } else {
                 vertical = 0.5;
             }
@@ -74,11 +74,15 @@ public class RobotCentricSolo extends LinearOpMode {
             }
 
             //moves vertical slides
-            if (gamepad1.dpad_up) {
-                slide = robot.SLIDE_UP_POWER ;
-            } else if (gamepad1.dpad_down) {
+            if(gamepad1.dpad_up){
+                slide = robot.SLIDE_UP_POWER;
+            }else if (gamepad1.dpad_down){
                 slide = robot.SLIDE_DOWN_POWER;
+            }else{
+                slide = 0;
             }
+
+            robot.setSlidePower(slide);
 
             if (gamepad1.x) {
                 horizontalOffset = 1;
