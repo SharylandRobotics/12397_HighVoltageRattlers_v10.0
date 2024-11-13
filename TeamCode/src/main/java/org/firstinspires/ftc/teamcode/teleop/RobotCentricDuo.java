@@ -5,9 +5,9 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.RobotHardware;
 
 
-@TeleOp(name="Robot Centric (Solo)", group="Robot")
+@TeleOp(name="Robot Centric (duo)", group="Robot")
 
-public class RobotCentricSolo extends LinearOpMode {
+public class RobotCentricDuo extends LinearOpMode {
 
     // Create a RobotHardware object to be used to access robot hardware.
     // Prefix any hardware functions with "robot." to access this class.
@@ -55,9 +55,9 @@ public class RobotCentricSolo extends LinearOpMode {
 
             // Use gamepad buttons to move arm up (Y) and down (A)
             // Use the MOTOR constants defined in RobotHardware class.
-            if (gamepad1.y) {
+            if (gamepad2.y) {
                 vertical = RobotHardware.SERVO_UP;
-            } else if (gamepad1.a) {
+            } else if (gamepad2.a) {
                 vertical = RobotHardware.SERVO_DOWN;
             } else {
                 vertical = 0.5;
@@ -65,18 +65,18 @@ public class RobotCentricSolo extends LinearOpMode {
 
             robot.setVerticalPower(vertical);
 
-            if (gamepad1.left_bumper) {
+            if (gamepad2.left_bumper) {
                 robot.setIntakePower(0.6);
-            }else if(gamepad1.right_bumper){
+            }else if(gamepad2.right_bumper){
                 robot.setIntakePower(0.4);
             } else  {
                 robot.setIntakePower(0.5);
             }
 
             //moves vertical slides
-            if(gamepad1.dpad_up){
+            if(gamepad2.dpad_up){
                 slide = robot.SLIDE_UP_POWER;
-            }else if (gamepad1.dpad_down){
+            }else if (gamepad2.dpad_down){
                 slide = robot.SLIDE_DOWN_POWER;
             }else{
                 slide = 0;
@@ -84,21 +84,19 @@ public class RobotCentricSolo extends LinearOpMode {
 
             robot.setSlidePower(slide);
 
-            if (gamepad1.x) {
+            if (gamepad2.x) {
                 horizontalOffset = 1;
             }
-            else if (gamepad1.b) {
+            else if (gamepad2.b) {
                 horizontalOffset = 0.00;
-                extendOffset = 0.5;
             }
 
             robot.setHorizontalPosition(horizontalOffset);
-            robot.setIntakePosition(extendOffset);
 
-            if (gamepad1.dpad_left) {
+            if (gamepad2.dpad_left) {
                 extendOffset = 1;
 
-            } else if (gamepad1.dpad_right) {
+            } else if (gamepad2.dpad_right) {
                 extendOffset = 0;
 
             }
