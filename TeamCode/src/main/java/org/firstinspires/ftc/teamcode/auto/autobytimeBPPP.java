@@ -36,8 +36,8 @@ public class autobytimeBPPP extends LinearOpMode{
     //drive to net zone
         robot.driveRobotCentric(-0.5, 0, 0);
         robot.setHorizontalPosition(0.5);
-        robot.setIntakePosition(0.05);
-    sleep(1300);
+        robot.setIntakePosition(1);
+    sleep(1350);
 
         robot.driveRobotCentric(0,0,0);
     sleep(100);
@@ -46,11 +46,11 @@ public class autobytimeBPPP extends LinearOpMode{
     sleep(200);
 
         robot.driveRobotCentric(0, 0, 0);
-        robot.setSlidePower(0.5);
+        robot.setSlidePower(0.6);
     sleep(700);
         robot.setVerticalPower(-1);
     sleep(2000);
-        robot.setSlidePower(-0.8);
+        robot.setSlidePower(-0.9);
         robot.setVerticalPower(1);
     sleep(850);
         robot.setSlidePower(0);
@@ -72,7 +72,7 @@ public class autobytimeBPPP extends LinearOpMode{
     robot.driveRobotCentric(0.65, 0, 0);
     sleep(1100);
     robot.driveRobotCentric(0.0,-0.75, 0);
-    sleep(200);
+    sleep(300);
     robot.driveRobotCentric(-0.65, 0, 0);
     sleep(1200);
     robot.driveRobotCentric(0, 0, 0);
@@ -90,7 +90,17 @@ public class autobytimeBPPP extends LinearOpMode{
     robot.driveRobotCentric(0,0,0);
     sleep(100);
     robot.driveRobotCentric(0, 0.75, 0);
+    sleep(1200);
+    robot.driveRobotCentric(0,0,0);
+    sleep(200);
+    robot.driveRobotCentric(0,-0.6,0);
     sleep(1500);
+    robot.driveRobotCentric(-0.5, 0, 0);
+    sleep(2000);
+    robot.driveRobotCentric(0.75, 0,0);
+    sleep(1200);
+    robot.driveRobotCentric(0, 0.75,0);
+    sleep(1350);
 }
 
 }
