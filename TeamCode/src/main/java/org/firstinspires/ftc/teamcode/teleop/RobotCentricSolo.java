@@ -76,6 +76,7 @@ public class RobotCentricSolo extends LinearOpMode {
             //moves vertical slides
             if(gamepad1.dpad_up){
                 slide = robot.SLIDE_UP_POWER;
+                horizontalOffset = 0.00;
             }else if (gamepad1.dpad_down){
                 slide = robot.SLIDE_DOWN_POWER;
             }else{
@@ -89,7 +90,6 @@ public class RobotCentricSolo extends LinearOpMode {
             }
             else if (gamepad1.b) {
                 horizontalOffset = 0.00;
-                extendOffset = 0.5;
             }
 
             robot.setHorizontalPosition(horizontalOffset);

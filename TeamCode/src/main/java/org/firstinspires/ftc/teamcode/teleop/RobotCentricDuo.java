@@ -66,7 +66,7 @@ public class RobotCentricDuo extends LinearOpMode {
             robot.setVerticalPower(vertical);
 
             if (gamepad2.left_bumper) {
-                robot.setIntakePower(0.6);
+                robot.setIntakePower(0.75);
             }else if(gamepad2.right_bumper){
                 robot.setIntakePower(0.4);
             } else  {
@@ -76,6 +76,7 @@ public class RobotCentricDuo extends LinearOpMode {
             //moves vertical slides
             if(gamepad2.dpad_up){
                 slide = robot.SLIDE_UP_POWER;
+                horizontalOffset = 0.00;
             }else if (gamepad2.dpad_down){
                 slide = robot.SLIDE_DOWN_POWER;
             }else{
@@ -108,7 +109,7 @@ public class RobotCentricDuo extends LinearOpMode {
             telemetry.addData("Turn", "Right Stick");
             telemetry.addData("Slide Up/Down", "Dpad_Up & Dpad_Down");
             telemetry.addData("HSlide Up/Down", "Dpad_Right & Dpad_Left");
-            telemetry.addData("Vertical", "Y & A Buttons");
+            telemetry.addData("OutTake", "Y & A Buttons");
             telemetry.addData("Horizontal", "B & X Buttons");
             telemetry.addData("Intake", "left & right bumper");
             telemetry.addData("-", "-------");
@@ -117,7 +118,7 @@ public class RobotCentricDuo extends LinearOpMode {
             telemetry.addData("Turn Power",  "%.2f", turn);
             telemetry.addData("Slide Power",  "%.2f", slide);
             telemetry.addData("HSlidePower", "%.2f", hslide);
-            telemetry.addData("Vertical Power", "%.2f", vertical);
+            telemetry.addData("Outtake Power", "%.2f", vertical);
             telemetry.addData("Horizontal Position", "%.2f", horizontalOffset);
             telemetry.addData("Hand Position",  "Offset = %.2f", extendOffset);
             telemetry.addData("Intake Power", "%.2f", intake);
