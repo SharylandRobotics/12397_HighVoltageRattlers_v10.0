@@ -22,7 +22,6 @@ public class RobotCentricDuo extends LinearOpMode {
         double hslide = 0;
         double vertical = 0.5;
         double horizontalOffset = 0;
-        double intake = 0;
         double extendOffset = 1;
 
         // initialize all the hardware, using the hardware class. See how clean and simple this is?
@@ -65,13 +64,6 @@ public class RobotCentricDuo extends LinearOpMode {
 
             robot.setVerticalPower(vertical);
 
-            if (gamepad2.left_bumper) {
-                robot.setIntakePower(0.75);
-            }else if(gamepad2.right_bumper){
-                robot.setIntakePower(0.4);
-            } else  {
-                robot.setIntakePower(0.5);
-            }
 
             //moves vertical slides
             if(gamepad2.dpad_up){
@@ -121,7 +113,6 @@ public class RobotCentricDuo extends LinearOpMode {
             telemetry.addData("Outtake Power", "%.2f", vertical);
             telemetry.addData("Horizontal Position", "%.2f", horizontalOffset);
             telemetry.addData("Hand Position",  "Offset = %.2f", extendOffset);
-            telemetry.addData("Intake Power", "%.2f", intake);
             telemetry.update();
 
             // Pace this loop so hands move at a reasonable speed.
