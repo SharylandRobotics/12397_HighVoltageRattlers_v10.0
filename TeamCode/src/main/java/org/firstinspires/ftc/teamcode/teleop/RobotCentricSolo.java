@@ -22,7 +22,6 @@ public class RobotCentricSolo extends LinearOpMode {
         double hslide = 0;
         double vertical = 0.5;
         double horizontalOffset = 0;
-        double intake = 0;
         double extendOffset = 1;
 
         // initialize all the hardware, using the hardware class. See how clean and simple this is?
@@ -56,27 +55,17 @@ public class RobotCentricSolo extends LinearOpMode {
             // Use gamepad buttons to move arm up (Y) and down (A)
             // Use the MOTOR constants defined in RobotHardware class.
             if (gamepad1.y) {
-                vertical = RobotHardware.SERVO_UP;
+                vertical = 1;
             } else if (gamepad1.a) {
-                vertical = RobotHardware.SERVO_DOWN;
-            } else {
-                vertical = 0.5;
+                vertical = 0;
             }
 
             robot.setVerticalPower(vertical);
 
-            if (gamepad1.left_bumper) {
-                robot.setIntakePower(0.6);
-            }else if(gamepad1.right_bumper){
-                robot.setIntakePower(0.4);
-            } else  {
-                robot.setIntakePower(0.5);
-            }
 
             //moves vertical slides
             if(gamepad1.dpad_up){
                 slide = robot.SLIDE_UP_POWER;
-                horizontalOffset = 0.00;
             }else if (gamepad1.dpad_down){
                 slide = robot.SLIDE_DOWN_POWER;
             }else{
@@ -89,7 +78,7 @@ public class RobotCentricSolo extends LinearOpMode {
                 horizontalOffset = 1;
             }
             else if (gamepad1.b) {
-                horizontalOffset = 0.00;
+                horizontalOffset = 0.0;
             }
 
             robot.setHorizontalPosition(horizontalOffset);
@@ -112,7 +101,6 @@ public class RobotCentricSolo extends LinearOpMode {
             telemetry.addData("HSlide Up/Down", "Dpad_Right & Dpad_Left");
             telemetry.addData("Vertical", "Y & A Buttons");
             telemetry.addData("Horizontal", "B & X Buttons");
-            telemetry.addData("Intake", "left & right bumper");
             telemetry.addData("-", "-------");
 
             telemetry.addData("Drive Power", "%.2f", drive);
@@ -122,7 +110,6 @@ public class RobotCentricSolo extends LinearOpMode {
             telemetry.addData("Vertical Power", "%.2f", vertical);
             telemetry.addData("Horizontal Position", "%.2f", horizontalOffset);
             telemetry.addData("Hand Position",  "Offset = %.2f", extendOffset);
-            telemetry.addData("Intake Power", "%.2f", intake);
             telemetry.update();
 
             // Pace this loop so hands move at a reasonable speed.

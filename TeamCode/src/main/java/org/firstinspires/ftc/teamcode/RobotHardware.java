@@ -20,14 +20,24 @@ public class RobotHardware {
     public DcMotor rightFrontDrive = null;
     public DcMotor rightBackDrive = null;
 
-    public DcMotor slideMotor = null;
+    public DcMotor slideMotorL = null;
+    public DcMotor slideMotorR = null;
 
-    private Servo vertical = null;
     private Servo horizontal1 = null;
     private Servo horizontal2 = null;
-    private Servo intake = null;
     private Servo lextend = null;
     private Servo rextend = null;
+    private Servo leftOutTake = null;
+    private Servo rightOutTake = null;
+
+    public int leftFrontTarget;
+    public int leftBackTarget;
+    public int rightFrontTarget;
+    public int rightBackTarget;
+
+    public double COUNTS_PER_MOTOR_REV = 537.7;
+    public double WHEEL_DIAMETER_INCHES = 4.09449;
+    public double COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV) / (WHEEL_DIAMETER_INCHES * Math.PI);
 
     // public static final double MID_SERVO = 0.8 ;
     public static final double SERVO_UP = 0.90;
@@ -59,7 +69,10 @@ public class RobotHardware {
         leftBackDrive = myOpMode.hardwareMap.get(DcMotor.class, "left_back_drive");
         rightFrontDrive = myOpMode.hardwareMap.get(DcMotor.class, "right_front_drive");
         rightBackDrive = myOpMode.hardwareMap.get(DcMotor.class, "right_back_drive");
-        slideMotor = myOpMode.hardwareMap.get(DcMotor.class, "slide");
+        slideMotorL = myOpMode.hardwareMap.get(DcMotor.class, "slideMotorL");
+        slideMotorR = myOpMode.hardwareMap.get(DcMotor.class, "slideMotorR");
+
+
 
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point on opposite directions.
         // Pushing the left stick forward MUST make robot go forward. So adjust these two lines based on your first test drive.
@@ -68,33 +81,41 @@ public class RobotHardware {
         leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
         rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
         rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
+        slideMotorL.setDirection(DcMotor.Direction.FORWARD);
+        slideMotorR.setDirection(DcMotor.Direction.REVERSE);
+
+        leftFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftBackDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightBackDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         leftFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        slideMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        slideMotorL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        slideMotorR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
+        leftFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
+        slideMotorL.setTargetPosition(0);
+        slideMotorR.setTargetPosition(0);
+        slideMotorL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        slideMotorR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        slideMotorL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        slideMotorR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-//        leftFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-//        leftBackDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-//        rightFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-//        rightBackDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-//        slideMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-//
-//        leftFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//        leftBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//        rightFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//        rightBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         //Define and initialize ALL installed servos.
-        vertical = myOpMode.hardwareMap.get(Servo.class, "vertical");
         horizontal1 = myOpMode.hardwareMap.get(Servo.class, "horizontal1");
         horizontal2 = myOpMode.hardwareMap.get(Servo.class, "horizontal2");
-        intake = myOpMode.hardwareMap.get(Servo.class, "intake");
         lextend = myOpMode.hardwareMap.get(Servo.class, "lextend");
         rextend = myOpMode.hardwareMap.get(Servo.class, "rextend");
+        leftOutTake = myOpMode.hardwareMap.get(Servo.class, "leftOutTake");
+        rightOutTake = myOpMode.hardwareMap.get(Servo.class, "rightOutTake");
 
 
         myOpMode.telemetry.addData(">", "Hardware Initialized");
@@ -134,28 +155,39 @@ public class RobotHardware {
         setDrivePower(leftFront, leftBack, rightFront, rightBack);
     }
 
-    public void driveFieldCentric(double Drive,double Turn, double Strafe){
-        //Combine drive and turn for blended motion.
-        double leftFront = Drive + Strafe + Turn;
-        double leftBack = Drive - Strafe + Turn;
-        double rightFront = Drive - Strafe - Turn;
-        double rightBack = Drive + Strafe -  Turn;
+    public void driveEncoder(double speed, double leftFrontInches, double leftBackInches, double rightFrontInches, double rightBackInches, double timeOutSecs){
+        // drives only while myOpMode is active
+        if(myOpMode.opModeIsActive()){
+            // setSlidePosition();
 
-        //Scale the values so neither exceed +/-1.0
-        double max = Math.max(Math.abs(leftFront), Math.abs(rightFront));
-        max = Math.max(max, Math.abs(leftBack));
-        max = Math.max(max, Math.abs(rightBack));
+            leftFrontTarget = leftFrontDrive.getCurrentPosition() + (int)(leftFrontInches * COUNTS_PER_INCH);
+            leftBackTarget = leftBackDrive.getCurrentPosition() + (int)(leftFrontInches * COUNTS_PER_INCH);
+            rightFrontTarget = rightFrontDrive.getCurrentPosition() + (int)(leftFrontInches * COUNTS_PER_INCH);
+            rightBackTarget = rightBackDrive.getCurrentPosition() + (int)(leftFrontInches * COUNTS_PER_INCH);
 
-        if (max > 1.0)
-        {
-            leftFront /= max;
-            leftBack /= max;
-            rightFront /= max;
-            rightBack /= max;
+            //turn on RUN_TO_POSITION
+            leftFrontDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            leftBackDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            rightFrontDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            rightBackDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+            // reset the time and start motion
+
+            runtime.reset();
+            setDrivePower(Math.abs(speed), Math.abs(speed), Math.abs(speed), Math.abs(speed));
+
+            setDrivePower(0, 0, 0, 0 );
+            leftFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            leftBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            rightFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            rightBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+            myOpMode.sleep(250); //optional pause after each move
         }
+    }
 
-        //Use existing function to drive both wheels.
-        setDrivePower(leftFront, leftBack, rightFront, rightBack);
+    public void setSlidePosition(){
+
     }
 
     /**
@@ -179,23 +211,26 @@ public class RobotHardware {
      *
      * @param power driving power (-1.0 to 1.0)
      */
-    public void setSlidePower(double power) {slideMotor.setPower(power); }
+    public void setSlidePower(double power) {
+        slideMotorL.setPower(power);
+        slideMotorR.setPower(-power);
+    }
 
     /**
      * Send the two hand-servos to opposing (mirrored) positions, based on the passed offset.
      * the extends are what extend the slides
      * @param offset
      */
-
     public void setIntakePosition(double offset){
+        //whatever value you subtract from lextend should be added to rextend and vise versa
         if (offset == 1) {
-            lextend.setPosition(0.10);
-            // max 0.25
-            rextend.setPosition(1);
-            //0.9
-        } else if (offset == 0) {
+            //retracted
             lextend.setPosition(1);
-            rextend.setPosition(0);
+            rextend.setPosition(0.015);
+        } else if (offset == 0) {
+            //extended
+            lextend.setPosition(0.8);
+            rextend.setPosition(0.215);
         }
     }
 
@@ -205,7 +240,6 @@ public class RobotHardware {
      * @param offset
      */
     public void setHorizontalPosition(double offset) {
-        //offset = Range.clip(offset, -0.5, 0.5);
         if (offset == 1) {
             horizontal1.setPosition(0.35);
             // max 0.25
@@ -216,12 +250,19 @@ public class RobotHardware {
             horizontal2.setPosition(0.15);
         }
     }
-    public void setVerticalPower(double power) {vertical.setPosition(power);}
 
-    public void setIntakePower(double power) {
+    //changes here affect both duo and solo , add to left and right.
+    public void setVerticalPower(double power) {
+        if (power == 1) {
+            leftOutTake.setPosition(0.5);
+            rightOutTake.setPosition(0.5);
+        }else if (power == 0){
+            leftOutTake.setPosition(0.75);
+            rightOutTake.setPosition(0.25);
+        }
 
-        intake.setPosition(power);
     }
 }
+
 
 
