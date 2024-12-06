@@ -2,11 +2,8 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 
 public class RobotHardware {
 
@@ -15,13 +12,13 @@ public class RobotHardware {
 
     public ElapsedTime runtime = new ElapsedTime();
 
-    public DcMotor leftFrontDrive = null;
-    public DcMotor leftBackDrive = null;
-    public DcMotor rightFrontDrive = null;
-    public DcMotor rightBackDrive = null;
+    private DcMotor leftFrontDrive = null;
+    private DcMotor leftBackDrive = null;
+    private DcMotor rightFrontDrive = null;
+    private DcMotor rightBackDrive = null;
 
-    public DcMotor slideMotorL = null;
-    public DcMotor slideMotorR = null;
+    private DcMotor slideMotorL = null;
+    private DcMotor slideMotorR = null;
 
     private Servo horizontal1 = null;
     private Servo horizontal2 = null;
@@ -29,6 +26,7 @@ public class RobotHardware {
     private Servo rextend = null;
     private Servo leftOutTake = null;
     private Servo rightOutTake = null;
+    private Servo inClaw = null;
 
     public int leftFrontTarget;
     public int leftBackTarget;
@@ -36,7 +34,7 @@ public class RobotHardware {
     public int rightBackTarget;
 
     public double COUNTS_PER_MOTOR_REV = 537.7;
-    public double WHEEL_DIAMETER_INCHES = 4.09449;
+    public double WHEEL_DIAMETER_INCHES = 3.77953;
     public double COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV) / (WHEEL_DIAMETER_INCHES * Math.PI);
 
     // public static final double MID_SERVO = 0.8 ;
@@ -103,8 +101,8 @@ public class RobotHardware {
 
         slideMotorL.setTargetPosition(0);
         slideMotorR.setTargetPosition(0);
-        slideMotorL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        slideMotorR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//        slideMotorL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//        slideMotorR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         slideMotorL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         slideMotorR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
@@ -116,6 +114,7 @@ public class RobotHardware {
         rextend = myOpMode.hardwareMap.get(Servo.class, "rextend");
         leftOutTake = myOpMode.hardwareMap.get(Servo.class, "leftOutTake");
         rightOutTake = myOpMode.hardwareMap.get(Servo.class, "rightOutTake");
+        inClaw = myOpMode.hardwareMap.get(Servo.class, "inClaw");
 
 
         myOpMode.telemetry.addData(">", "Hardware Initialized");
@@ -133,26 +132,26 @@ public class RobotHardware {
      */
     public void driveRobotCentric(double Drive,double Strafe, double Turn){
         //Combine drive and turn for blended motion.
-        double leftFront = Drive + Strafe + Turn;
-        double leftBack = Drive - Strafe + Turn;
-        double rightFront = Drive - Strafe - Turn;
-        double rightBack = Drive + Strafe -  Turn;
+        double leftFrontPower = Drive + Strafe + Turn;
+        double leftBackPower = Drive - Strafe + Turn;
+        double rightFrontPower = Drive - Strafe - Turn;
+        double rightBackPower = Drive + Strafe -  Turn;
 
         //Scale the values so neither exceed +/-1.0
-        double max = Math.max(Math.abs(leftFront), Math.abs(rightFront));
-        max = Math.max(max, Math.abs(leftBack));
-        max = Math.max(max, Math.abs(rightBack));
+        double max = Math.max(Math.abs(leftFrontPower), Math.abs(rightFrontPower));
+        max = Math.max(max, Math.abs(leftBackPower));
+        max = Math.max(max, Math.abs(rightBackPower));
 
         if (max > 1.0)
         {
-            leftFront /= max;
-            leftBack /= max;
-            rightFront /= max;
-            rightBack /= max;
+            leftFrontPower /= max;
+            leftBackPower /= max;
+            rightFrontPower /= max;
+            rightBackPower /= max;
         }
 
         //Use existing function to drive both wheels.
-        setDrivePower(leftFront, leftBack, rightFront, rightBack);
+        setDrivePower(leftFrontPower, leftBackPower, rightFrontPower, rightBackPower);
     }
 
     public void driveEncoder(double speed, double leftFrontInches, double leftBackInches, double rightFrontInches, double rightBackInches, double timeOutSecs){
@@ -160,10 +159,17 @@ public class RobotHardware {
         if(myOpMode.opModeIsActive()){
             // setSlidePosition();
 
+
+            //determine new target position
             leftFrontTarget = leftFrontDrive.getCurrentPosition() + (int)(leftFrontInches * COUNTS_PER_INCH);
-            leftBackTarget = leftBackDrive.getCurrentPosition() + (int)(leftFrontInches * COUNTS_PER_INCH);
-            rightFrontTarget = rightFrontDrive.getCurrentPosition() + (int)(leftFrontInches * COUNTS_PER_INCH);
-            rightBackTarget = rightBackDrive.getCurrentPosition() + (int)(leftFrontInches * COUNTS_PER_INCH);
+            leftBackTarget = leftBackDrive.getCurrentPosition() + (int)(leftBackInches * COUNTS_PER_INCH);
+            rightFrontTarget = rightFrontDrive.getCurrentPosition() + (int)(rightFrontInches * COUNTS_PER_INCH);
+            rightBackTarget = rightBackDrive.getCurrentPosition() + (int)(rightBackInches * COUNTS_PER_INCH);
+
+            leftFrontDrive.setTargetPosition(leftFrontTarget - 1);
+            leftBackDrive.setTargetPosition(leftBackTarget - 1 );
+            rightFrontDrive.setTargetPosition(rightFrontTarget - 1);
+            rightBackDrive.setTargetPosition(rightBackTarget - 1);
 
             //turn on RUN_TO_POSITION
             leftFrontDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -176,13 +182,27 @@ public class RobotHardware {
             runtime.reset();
             setDrivePower(Math.abs(speed), Math.abs(speed), Math.abs(speed), Math.abs(speed));
 
+            while ((myOpMode.opModeIsActive() && (runtime.seconds() < timeOutSecs) &&
+                    (leftFrontDrive.isBusy() && leftBackDrive.isBusy() &&
+                            rightFrontDrive.isBusy() && rightBackDrive.isBusy()))){
+
+                //display it for driver
+
+                myOpMode.telemetry.addData("Running to ", " %7d :%7d :%7d :%7d",
+                        leftFrontTarget, leftBackTarget, rightFrontTarget, rightBackTarget);
+                myOpMode.telemetry.addData("Currently at ", "%7d ;%7d :%7d :%7d",
+                        leftFrontDrive.getCurrentPosition(), leftBackDrive.getCurrentPosition(),
+                        rightFrontDrive.getCurrentPosition(), rightBackDrive.getCurrentPosition());
+                myOpMode.telemetry.update();
+            }
+
             setDrivePower(0, 0, 0, 0 );
             leftFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             leftBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             rightFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             rightBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-            myOpMode.sleep(250); //optional pause after each move
+            myOpMode.sleep(200); //optional pause after each move
         }
     }
 
@@ -261,6 +281,14 @@ public class RobotHardware {
             rightOutTake.setPosition(0.25);
         }
 
+    }
+
+    public void setInClawPosition(double power){
+        if(power == 1){
+            inClaw.setPosition(0.5);
+        }else if(power == 0){
+            inClaw.setPosition(0);
+        }
     }
 }
 

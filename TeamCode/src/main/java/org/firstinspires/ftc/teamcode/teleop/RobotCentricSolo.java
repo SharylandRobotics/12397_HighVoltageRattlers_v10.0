@@ -45,10 +45,14 @@ public class RobotCentricSolo extends LinearOpMode {
             robot.driveRobotCentric(drive, strafe, turn);
 
             // Use gamepad left & right Bumpers to open and close the claw
-            // Use the SERVO constants defined in RobotHardware class.
-            // Each time around the loop, the servos will move by a small amount.
-            // Limit the total offset to half of the full travel range
 
+            double inClawOffset = 0;
+            while(gamepad1.left_bumper) {
+                inClawOffset = 1;
+            }
+
+
+            robot.setInClawPosition(inClawOffset);
 
             // Move both servos to new position.  Use RobotHardware class
 
