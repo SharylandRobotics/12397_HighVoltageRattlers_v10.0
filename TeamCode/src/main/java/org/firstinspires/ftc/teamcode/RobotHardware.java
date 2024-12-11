@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -27,6 +28,7 @@ public class RobotHardware {
     private Servo leftOutTake = null;
     private Servo rightOutTake = null;
     private Servo inClaw = null;
+    private Servo outClaw = null;
 
     public int leftFrontTarget;
     public int leftBackTarget;
@@ -43,13 +45,14 @@ public class RobotHardware {
     public static final double SLIDE_UP_POWER = 1.0;
     public static final double SLIDE_DOWN_POWER = -0.50;
 
-//    public double SLIDE_TICKS_PER_DEGREE = 28.0 * 60.0 / 360.0;
-//
-//    public double SLIDE_START = 0.0 * SLIDE_TICKS_PER_DEGREE;
-//    public double SLIDE_LOW_BASKET = 360.0 * SLIDE_TICKS_PER_DEGREE;
-//    public double SLIDE_HIGH_BASKET = 720.0 * SLIDE_TICKS_PER_DEGREE;
-//
-//    public double slidePosition = (int)SLIDE_START;
+    public double SLIDE_TICKS_PER_DEGREE = 28.0 * 19.2 / 360.0;
+
+    public double SLIDE_START = 0.0 * SLIDE_TICKS_PER_DEGREE;
+    public double SLIDE_HIGH_RUNG = 1650 * SLIDE_TICKS_PER_DEGREE;
+    public double SLIDE_LOW_BASKET = 360.0 * SLIDE_TICKS_PER_DEGREE;
+    public double SLIDE_HIGH_BASKET = - 2100 * SLIDE_TICKS_PER_DEGREE;
+
+    public double slidePosition = (int)SLIDE_START;
 
 
     public RobotHardware(LinearOpMode OpMode) {myOpMode = OpMode;}
@@ -109,12 +112,13 @@ public class RobotHardware {
 
         //Define and initialize ALL installed servos.
         horizontal1 = myOpMode.hardwareMap.get(Servo.class, "horizontal1");
-        horizontal2 = myOpMode.hardwareMap.get(Servo.class, "horizontal2");
         lextend = myOpMode.hardwareMap.get(Servo.class, "lextend");
         rextend = myOpMode.hardwareMap.get(Servo.class, "rextend");
         leftOutTake = myOpMode.hardwareMap.get(Servo.class, "leftOutTake");
         rightOutTake = myOpMode.hardwareMap.get(Servo.class, "rightOutTake");
+
         inClaw = myOpMode.hardwareMap.get(Servo.class, "inClaw");
+        outClaw = myOpMode.hardwareMap.get(Servo.class, "outClaw");
 
 
         myOpMode.telemetry.addData(">", "Hardware Initialized");
@@ -157,7 +161,7 @@ public class RobotHardware {
     public void driveEncoder(double speed, double leftFrontInches, double leftBackInches, double rightFrontInches, double rightBackInches, double timeOutSecs){
         // drives only while myOpMode is active
         if(myOpMode.opModeIsActive()){
-            // setSlidePosition();
+            setSlidePosition();
 
 
             //determine new target position
@@ -207,6 +211,13 @@ public class RobotHardware {
     }
 
     public void setSlidePosition(){
+        slideMotorL.setTargetPosition((int)(slidePosition));
+        slideMotorR.setTargetPosition((int)(slidePosition));
+
+        ((DcMotorEx) slideMotorL).setVelocity(2500);
+        ((DcMotorEx) slideMotorR).setVelocity(2500);
+        slideMotorL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        slideMotorR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
     }
 
@@ -261,33 +272,40 @@ public class RobotHardware {
      */
     public void setHorizontalPosition(double offset) {
         if (offset == 1) {
-            horizontal1.setPosition(0.35);
-            // max 0.25
-            horizontal2.setPosition(0.65);
+            horizontal1.setPosition(0.22);
+            lextend.setPosition(.95);
+            rextend.setPosition(0.065);
             //0.9
         } else if (offset == 0) {
-            horizontal1.setPosition(0.85);
-            horizontal2.setPosition(0.15);
+            horizontal1.setPosition(0.8);
         }
     }
 
     //changes here affect both duo and solo , add to left and right.
     public void setVerticalPower(double power) {
         if (power == 1) {
-            leftOutTake.setPosition(0.5);
-            rightOutTake.setPosition(0.5);
+            leftOutTake.setPosition(0);
+            rightOutTake.setPosition(1);
         }else if (power == 0){
-            leftOutTake.setPosition(0.75);
-            rightOutTake.setPosition(0.25);
+            leftOutTake.setPosition(.625);
+            rightOutTake.setPosition(.375);
         }
 
     }
 
     public void setInClawPosition(double power){
         if(power == 1){
-            inClaw.setPosition(0.5);
+            inClaw.setPosition(0.3);
         }else if(power == 0){
             inClaw.setPosition(0);
+        }
+    }
+
+    public void setOutClawPosition(double power){
+        if(power == 1){
+            outClaw.setPosition(0.20);
+        }else if(power == 0){
+            outClaw.setPosition(0.13);
         }
     }
 }

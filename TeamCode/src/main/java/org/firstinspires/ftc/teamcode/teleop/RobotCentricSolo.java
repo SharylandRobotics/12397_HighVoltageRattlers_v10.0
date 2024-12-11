@@ -44,15 +44,28 @@ public class RobotCentricSolo extends LinearOpMode {
             // Combine drive and turn for blended motion. Use RobotHardware class
             robot.driveRobotCentric(drive, strafe, turn);
 
-            // Use gamepad left & right Bumpers to open and close the claw
+            // Use gamepad left Bumper to open and close the intake claw
 
             double inClawOffset = 0;
-            while(gamepad1.left_bumper) {
+            if(gamepad1.left_bumper) {
                 inClawOffset = 1;
+            }else{
+                inClawOffset = 0;
             }
 
-
             robot.setInClawPosition(inClawOffset);
+
+            //Use right bumper to open and close outtake claw
+
+            double outClawOffset = 0;
+
+            if(gamepad1.right_bumper){
+                outClawOffset = 1;
+            }else{
+                outClawOffset = 0;
+            }
+
+            robot.setOutClawPosition(outClawOffset);
 
             // Move both servos to new position.  Use RobotHardware class
 
@@ -69,22 +82,21 @@ public class RobotCentricSolo extends LinearOpMode {
 
             //moves vertical slides
             if(gamepad1.dpad_up){
-                slide = robot.SLIDE_UP_POWER;
+                robot.slidePosition = robot.SLIDE_HIGH_RUNG;
             }else if (gamepad1.dpad_down){
-                slide = robot.SLIDE_DOWN_POWER;
-            }else{
-                slide = 0;
+                robot.slidePosition = robot.SLIDE_START;
             }
 
-            robot.setSlidePower(slide);
+            robot.setSlidePosition();
 
             if (gamepad1.x) {
                 horizontalOffset = 1;
             }
             else if (gamepad1.b) {
-                horizontalOffset = 0.0;
+                horizontalOffset = 0;
             }
 
+            robot.setInClawPosition(inClawOffset);
             robot.setHorizontalPosition(horizontalOffset);
             robot.setIntakePosition(extendOffset);
 
