@@ -48,7 +48,7 @@ public class RobotHardware {
     public double SLIDE_TICKS_PER_DEGREE = 28.0 * 19.2 / 360.0;
 
     public double SLIDE_START = 0.0 * SLIDE_TICKS_PER_DEGREE;
-    public double SLIDE_HIGH_RUNG = 1650 * SLIDE_TICKS_PER_DEGREE;
+    public double SLIDE_HIGH_RUNG = -1000 * SLIDE_TICKS_PER_DEGREE;
     public double SLIDE_LOW_BASKET = 360.0 * SLIDE_TICKS_PER_DEGREE;
     public double SLIDE_HIGH_BASKET = - 2100 * SLIDE_TICKS_PER_DEGREE;
 
@@ -284,11 +284,11 @@ public class RobotHardware {
     //changes here affect both duo and solo , add to left and right.
     public void setVerticalPower(double power) {
         if (power == 1) {
-            leftOutTake.setPosition(0);
-            rightOutTake.setPosition(1);
+            leftOutTake.setPosition(0.1);
+            rightOutTake.setPosition(0.9);
         }else if (power == 0){
-            leftOutTake.setPosition(.625);
-            rightOutTake.setPosition(.375);
+            leftOutTake.setPosition(.65);
+            rightOutTake.setPosition(.35);
         }
 
     }

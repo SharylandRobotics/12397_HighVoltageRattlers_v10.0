@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.RobotHardware;
 
 
-@TeleOp(name="Robot Centric (duo)", group="Robot")
+@TeleOp(name="Robot Centric (duo) NEW", group="Robot")
 
 public class RobotCentricDuo extends LinearOpMode {
 
@@ -37,9 +37,9 @@ public class RobotCentricDuo extends LinearOpMode {
             // Run wheels in POV mode (note: The joystick goes negative when pushed forward, so negate it)
             // In this mode the Left stick moves the robot fwd and back, the Right stick turns left and right.
             // This way it's also easy to just drive straight, or just turn.
-            drive = -gamepad1.left_stick_y;
-            strafe = gamepad1.left_stick_x;
-            turn  =  gamepad1.right_stick_x;
+            drive = -gamepad2.left_stick_y;
+            strafe = gamepad2.left_stick_x;
+            turn  =  gamepad2.right_stick_x;
 
             // Combine drive and turn for blended motion. Use RobotHardware class
             robot.driveRobotCentric(drive, strafe, turn);
