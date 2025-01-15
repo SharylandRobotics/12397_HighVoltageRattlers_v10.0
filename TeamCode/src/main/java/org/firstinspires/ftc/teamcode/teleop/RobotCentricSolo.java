@@ -82,7 +82,7 @@ public class RobotCentricSolo extends LinearOpMode {
 
             //moves vertical slides
             if(gamepad1.dpad_up){
-                robot.slidePosition = robot.SLIDE_HIGH_BASKET;
+                robot.slidePosition = robot.SLIDE_HIGH_RUNG;
             }else if (gamepad1.dpad_down){
                 robot.slidePosition = robot.SLIDE_START;
             }
@@ -101,13 +101,14 @@ public class RobotCentricSolo extends LinearOpMode {
             robot.setIntakePosition(extendOffset);
 
             if (gamepad1.dpad_left) {
-                extendOffset = 1;
-
-            } else if (gamepad1.dpad_right) {
                 extendOffset = 0;
 
+            } else if (gamepad1.dpad_right) {
+                extendOffset = 1;
+                horizontalOffset = 0;
             }
 
+            robot.setIntakePosition(horizontalOffset);
             robot.setIntakePosition(extendOffset);
 
             // Send telemetry messages to explain controls and show robot status

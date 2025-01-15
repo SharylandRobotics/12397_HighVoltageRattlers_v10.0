@@ -48,7 +48,7 @@ public class RobotHardware {
     public double SLIDE_TICKS_PER_DEGREE = 28.0 * 19.2 / 360.0;
 
     public double SLIDE_START = 0.0 * SLIDE_TICKS_PER_DEGREE;
-    public double SLIDE_HIGH_RUNG = -1000 * SLIDE_TICKS_PER_DEGREE;
+    public double SLIDE_HIGH_RUNG = 725 * SLIDE_TICKS_PER_DEGREE;
     public double SLIDE_LOW_BASKET = 360.0 * SLIDE_TICKS_PER_DEGREE;
     public double SLIDE_HIGH_BASKET = - 2100 * SLIDE_TICKS_PER_DEGREE;
 
@@ -158,7 +158,7 @@ public class RobotHardware {
         setDrivePower(leftFrontPower, leftBackPower, rightFrontPower, rightBackPower);
     }
 
-    public void driveEncoder(double speed, double leftFrontInches, double leftBackInches, double rightFrontInches, double rightBackInches, double timeOutSecs){
+    public void driveEncoder(double speed, double leftFrontInches, double leftBackInches, double rightFrontInches, double rightBackInches){
         // drives only while myOpMode is active
         if(myOpMode.opModeIsActive()){
             setSlidePosition();
@@ -173,7 +173,7 @@ public class RobotHardware {
             leftFrontDrive.setTargetPosition(leftFrontTarget - 1);
             leftBackDrive.setTargetPosition(leftBackTarget - 1 );
             rightFrontDrive.setTargetPosition(rightFrontTarget - 1);
-            rightBackDrive.setTargetPosition(rightBackTarget - 1);
+            rightBackDrive.setTargetPosition(rightBackTarget - 1 );
 
             //turn on RUN_TO_POSITION
             leftFrontDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -186,7 +186,7 @@ public class RobotHardware {
             runtime.reset();
             setDrivePower(Math.abs(speed), Math.abs(speed), Math.abs(speed), Math.abs(speed));
 
-            while ((myOpMode.opModeIsActive() && (runtime.seconds() < timeOutSecs) &&
+            while ((myOpMode.opModeIsActive() &&
                     (leftFrontDrive.isBusy() && leftBackDrive.isBusy() &&
                             rightFrontDrive.isBusy() && rightBackDrive.isBusy()))){
 
@@ -262,21 +262,19 @@ public class RobotHardware {
             //extended
             lextend.setPosition(0.8);
             rextend.setPosition(0.215);
+        } else if (offset == 2){
+            lextend.setPosition(0.9);
+            rextend.setPosition(.115);
+
         }
     }
 
-    /**
-     * Send the two hand-servos to opposing (mirrored) positions, based on the passed offset.
-     * the horizontals are what rotates the intake
-     * @param offset
-     */
     public void setHorizontalPosition(double offset) {
-        if (offset == 1) {
-            horizontal1.setPosition(0.22);
-            lextend.setPosition(.95);
-            rextend.setPosition(0.065);
-            //0.9
-        } else if (offset == 0) {
+        if (offset == 0) {
+            horizontal1.setPosition(0.2);
+            //b is pressed
+        } else if (offset == 1) {
+            //x is pressed
             horizontal1.setPosition(0.8);
         }
     }
@@ -284,18 +282,23 @@ public class RobotHardware {
     //changes here affect both duo and solo , add to left and right.
     public void setVerticalPower(double power) {
         if (power == 1) {
-            leftOutTake.setPosition(0.1);
-            rightOutTake.setPosition(0.9);
+            // y is pressed
+            leftOutTake.setPosition(.23);
+            rightOutTake.setPosition(.77);
         }else if (power == 0){
-            leftOutTake.setPosition(.65);
-            rightOutTake.setPosition(.35);
+            // a is pressed
+            leftOutTake.setPosition(.67);
+            rightOutTake.setPosition(.33);
+        }else if (power == 2){
+            leftOutTake.setPosition(.9);
+            rightOutTake.setPosition(0.1);
         }
 
     }
 
     public void setInClawPosition(double power){
         if(power == 1){
-            inClaw.setPosition(0.3);
+            inClaw.setPosition(0.4);
         }else if(power == 0){
             inClaw.setPosition(0);
         }
@@ -303,9 +306,10 @@ public class RobotHardware {
 
     public void setOutClawPosition(double power){
         if(power == 1){
-            outClaw.setPosition(0.20);
+            //button pressed
+            outClaw.setPosition(0.75);
         }else if(power == 0){
-            outClaw.setPosition(0.13);
+            outClaw.setPosition(0.45);
         }
     }
 }
