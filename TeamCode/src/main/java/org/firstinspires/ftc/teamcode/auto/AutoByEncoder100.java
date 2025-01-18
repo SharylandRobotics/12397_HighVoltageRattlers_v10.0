@@ -28,26 +28,26 @@ public class AutoByEncoder100 extends LinearOpMode{
         robot.setOutClawPosition(1);
         robot.setVerticalPower(0);
 
-        robot.driveEncoder(.75,-28.25,-28.25,-28.25,-28.25);
+        robot.driveEncoder(.75,-28.2,-28.2,-28.2,-28.2);
         robot.slidePosition = robot.SLIDE_HIGH_RUNG;
         robot.setSlidePosition();
         robot.setHorizontalPosition(0);
-        sleep(1000);
+        sleep(950);
         robot.slidePosition = robot.SLIDE_START;
         robot.setSlidePosition();
         robot.setOutClawPosition(0);
         robot.setVerticalPower(1);
-        sleep(950);
+        sleep(900);
         ///// score preload specimen ^^
-        robot.driveEncoder(.4, 17.5,17.5,17.5,17.5);
-        robot.driveEncoder(.8, 46.5,46.5,-46.5,-46.5);
+        robot.driveEncoder(.5, 17.05,17.05,17.05,17.05);
+        robot.driveEncoder(.85, 46.85,46.85,-46.85,-46.85);
         // intake facing submersivle^^
-        robot.driveEncoder(.5,44.097,-44.097,-44.097,44.097);
+        robot.driveEncoder(.6,44.097,-44.097,-44.097,44.097);
         //robot is current facing leftmost sample
         robot.setHorizontalPosition(1);
         sleep(200);
         robot.setIntakePosition(0);
-        sleep(750);
+        sleep(775);
         robot.setInClawPosition(1);
         sleep(300);
         robot.setHorizontalPosition(0);
@@ -62,7 +62,7 @@ public class AutoByEncoder100 extends LinearOpMode{
         robot.setOutClawPosition(0);
         sleep(200);
         robot.setVerticalPower(1);
-        robot.driveEncoder(.6,11.25,-11.25,-11.25,11.25);
+        robot.driveEncoder(.55,11.25,-11.25,-11.25,11.25);
         robot.setHorizontalPosition(1);
         sleep(200);
         robot.setIntakePosition(0);
@@ -73,5 +73,10 @@ public class AutoByEncoder100 extends LinearOpMode{
         robot.driveEncoder(.8, -46.5,-46.5,46.5,46.5);
         robot.setInClawPosition(0);
         sleep(200);
+        robot.setHorizontalPosition(0);
+        robot.setIntakePosition(1);
+        sleep(500);
+        robot.driveEncoder(.75,54,-54,-54,54);
+
     }
 }

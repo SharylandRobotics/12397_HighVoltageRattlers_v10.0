@@ -84,9 +84,11 @@ public class RobotCentricSolo extends LinearOpMode {
             if(gamepad1.dpad_up){
                 robot.slidePosition = robot.SLIDE_HIGH_RUNG;
             }else if (gamepad1.dpad_down){
+                vertical = 1;
                 robot.slidePosition = robot.SLIDE_START;
             }
 
+            robot.setVerticalPower(vertical);
             robot.setSlidePosition();
 
             if (gamepad1.x) {

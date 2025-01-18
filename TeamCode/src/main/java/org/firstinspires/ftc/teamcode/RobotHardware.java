@@ -265,7 +265,6 @@ public class RobotHardware {
         } else if (offset == 2){
             lextend.setPosition(0.9);
             rextend.setPosition(.115);
-
         }
     }
 
@@ -292,6 +291,9 @@ public class RobotHardware {
         }else if (power == 2){
             leftOutTake.setPosition(.9);
             rightOutTake.setPosition(0.1);
+        } else if (power == 3){
+            leftOutTake.setPosition(.75);
+            rightOutTake.setPosition(.25);
         }
 
     }

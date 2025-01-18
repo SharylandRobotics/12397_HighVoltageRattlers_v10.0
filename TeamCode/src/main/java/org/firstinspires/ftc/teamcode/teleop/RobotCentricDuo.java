@@ -5,9 +5,9 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.RobotHardware;
 
 
-@TeleOp(name="Robot Centric Duo New", group="Robot")
+@TeleOp(name="Robot Centric (Duo)", group="Robot")
 
-public class RobotCentricDuoNew extends LinearOpMode {
+public class RobotCentricDuo extends LinearOpMode {
 
     // Create a RobotHardware object to be used to access robot hardware.
     // Prefix any hardware functions with "robot." to access this class.
@@ -71,12 +71,12 @@ public class RobotCentricDuoNew extends LinearOpMode {
 
             // Use gamepad buttons to move arm up (Y) and down (A)
             // Use the MOTOR constants defined in RobotHardware class.
-            if (gamepad2.y) {
+            if (gamepad2.a) {
                 vertical = 1;
-            } else if (gamepad2.a) {
+            } else if (gamepad2.y) {
                 vertical = 0;
-            } else if (gamepad2.b){
-                vertical = 2;
+            } else if (gamepad2.b) {
+                vertical = 3;
             }
 
             robot.setVerticalPower(vertical);
@@ -84,9 +84,12 @@ public class RobotCentricDuoNew extends LinearOpMode {
 
             //moves vertical slides
             if(gamepad2.dpad_up){
-                robot.slidePosition = robot.SLIDE_HIGH_BASKET;
+                robot.slidePosition = robot.SLIDE_HIGH_RUNG;
             }else if (gamepad2.dpad_down){
                 robot.slidePosition = robot.SLIDE_START;
+            } else if (gamepad2.dpad_left){
+
+                robot.slidePosition = robot.SLIDE_HIGH_BASKET;
             }
 
             robot.setSlidePosition();
@@ -103,13 +106,14 @@ public class RobotCentricDuoNew extends LinearOpMode {
             robot.setIntakePosition(extendOffset);
 
             if (gamepad1.dpad_left) {
-                extendOffset = 1;
-
-            } else if (gamepad1.dpad_right) {
                 extendOffset = 0;
 
+            } else if (gamepad1.dpad_right) {
+                extendOffset = 1;
+                horizontalOffset = 0;
             }
 
+            robot.setIntakePosition(horizontalOffset);
             robot.setIntakePosition(extendOffset);
 
             // Send telemetry messages to explain controls and show robot status
