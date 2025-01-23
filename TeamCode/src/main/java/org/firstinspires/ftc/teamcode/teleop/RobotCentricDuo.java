@@ -55,6 +55,18 @@ public class RobotCentricDuo extends LinearOpMode {
 
             robot.setInClawPosition(inClawOffset);
 
+            double rotation = 1;
+
+            if(gamepad1.right_bumper){
+                rotation = 1;
+            } else {
+                rotation = 0;
+            }
+
+            robot.setInClawRotation(rotation);
+
+
+
             //Use right bumper to open and close outtake claw
 
             double outClawOffset = 0;

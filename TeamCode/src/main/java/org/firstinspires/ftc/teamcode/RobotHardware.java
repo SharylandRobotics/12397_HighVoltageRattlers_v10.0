@@ -29,6 +29,7 @@ public class RobotHardware {
     private Servo rightOutTake = null;
     private Servo inClaw = null;
     private Servo outClaw = null;
+    private Servo rotClaw = null;
 
     public int leftFrontTarget;
     public int leftBackTarget;
@@ -119,6 +120,8 @@ public class RobotHardware {
 
         inClaw = myOpMode.hardwareMap.get(Servo.class, "inClaw");
         outClaw = myOpMode.hardwareMap.get(Servo.class, "outClaw");
+        rotClaw = myOpMode.hardwareMap.get(Servo.class, "rotClaw");
+
 
 
         myOpMode.telemetry.addData(">", "Hardware Initialized");
@@ -270,7 +273,7 @@ public class RobotHardware {
 
     public void setHorizontalPosition(double offset) {
         if (offset == 0) {
-            horizontal1.setPosition(0.2);
+            horizontal1.setPosition(0.25);
             //b is pressed
         } else if (offset == 1) {
             //x is pressed
@@ -303,6 +306,14 @@ public class RobotHardware {
             inClaw.setPosition(0.4);
         }else if(power == 0){
             inClaw.setPosition(0);
+        }
+    }
+
+    public void  setInClawRotation(double power){
+        if(power == 0){
+            rotClaw.setPosition(.27);
+        } else if(power == 1){
+            rotClaw.setPosition(.59);
         }
     }
 
