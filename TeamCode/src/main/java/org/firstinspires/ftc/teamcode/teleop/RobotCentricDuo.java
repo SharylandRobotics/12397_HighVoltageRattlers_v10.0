@@ -111,6 +111,7 @@ public class RobotCentricDuo extends LinearOpMode {
             }
             else if (gamepad1.b) {
                 horizontalOffset = 0;
+                robot.setIntakePosition(2);
             }
 
             robot.setInClawPosition(inClawOffset);

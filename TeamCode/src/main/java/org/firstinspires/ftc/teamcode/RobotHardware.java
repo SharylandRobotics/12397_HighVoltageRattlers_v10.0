@@ -83,7 +83,7 @@ public class RobotHardware {
         leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
         rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
         rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
-        slideMotorL.setDirection(DcMotor.Direction.FORWARD);
+
         slideMotorR.setDirection(DcMotor.Direction.REVERSE);
 
         leftFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -213,6 +213,7 @@ public class RobotHardware {
         }
     }
 
+
     public void setSlidePosition(){
         slideMotorL.setTargetPosition((int)(slidePosition));
         slideMotorR.setTargetPosition((int)(slidePosition));
@@ -240,15 +241,7 @@ public class RobotHardware {
         rightBackDrive.setPower(rightBackWheel);
     }
 
-    /**
-     *  Pass the requested slide power to the appropriate hardware drive motor
-     *
-     * @param power driving power (-1.0 to 1.0)
-     */
-    public void setSlidePower(double power) {
-        slideMotorL.setPower(power);
-        slideMotorR.setPower(-power);
-    }
+
 
     /**
      * Send the two hand-servos to opposing (mirrored) positions, based on the passed offset.
@@ -266,8 +259,8 @@ public class RobotHardware {
             lextend.setPosition(0.8);
             rextend.setPosition(0.215);
         } else if (offset == 2){
-            lextend.setPosition(0.9);
-            rextend.setPosition(.115);
+            lextend.setPosition(0.97);
+            rextend.setPosition(.135);
         }
     }
 
@@ -277,7 +270,7 @@ public class RobotHardware {
             //b is pressed
         } else if (offset == 1) {
             //x is pressed
-            horizontal1.setPosition(0.8);
+            horizontal1.setPosition(0.75);
         }
     }
 
@@ -285,8 +278,8 @@ public class RobotHardware {
     public void setVerticalPower(double power) {
         if (power == 1) {
             // y is pressed
-            leftOutTake.setPosition(.23);
-            rightOutTake.setPosition(.77);
+            leftOutTake.setPosition(.25);
+            rightOutTake.setPosition(.75);
         }else if (power == 0){
             // a is pressed
             leftOutTake.setPosition(.67);
