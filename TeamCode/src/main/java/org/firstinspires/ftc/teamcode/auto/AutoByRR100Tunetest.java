@@ -2,30 +2,25 @@ package org.firstinspires.ftc.teamcode.auto;
 
 
 import androidx.annotation.NonNull;
-
-// RR-specific imports
-import androidx.versionedparcelable.NonParcelField;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.*;
 import com.acmerobotics.roadrunner.ftc.Actions;
-
-// Non-RR imports
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.teamcode.MecanumDrive;
 
 import java.lang.Math;
 
 @Config
-@Autonomous(name =  "Auto By RoadRunner 100pts test", group = "Robot")
+@Autonomous(name =  "Auto By RoadRunner Tune test", group = "Robot")
 
-public class AutoByRR100test extends LinearOpMode{
+public class AutoByRR100Tunetest extends LinearOpMode{
     //RobotHardware robot = new RobotHardware(this);
     public class Slides {
         private DcMotor slideMotorLRR;
@@ -119,7 +114,7 @@ public class AutoByRR100test extends LinearOpMode{
                 leftOutTake = hardwareMap.get(Servo.class, "leftOutTake");
                 rightOutTake = hardwareMap.get(Servo.class, "rightOutTake");
             }
-            public class OutTakeHangFirst implements Action {
+            public class OutTakeHang implements Action {
                 @Override
                 public boolean run(@NonNull TelemetryPacket packet) {
                     leftOutTake.setPosition(0.67);
@@ -128,24 +123,9 @@ public class AutoByRR100test extends LinearOpMode{
                     return false;
                 }
             }
-            public Action outTakeHangFirst(){
-                return new OutTakeHangFirst();
-            }
-
-            public class OutTakeHang implements Action {
-                @Override
-                public boolean run(@NonNull TelemetryPacket packet) {
-                    leftOutTake.setPosition(0.65);
-                    rightOutTake.setPosition(0.35);
-
-                    return false;
-                }
-            }
             public Action outTakeHang(){
                 return new OutTakeHang();
             }
-
-
             public class OutTakeTransfer implements Action {
                 @Override
                 public boolean run(@NonNull TelemetryPacket packet) {
@@ -171,7 +151,7 @@ public class AutoByRR100test extends LinearOpMode{
             public class OutClawOpen implements Action{
                 @Override
                 public boolean run(@NonNull TelemetryPacket packet) {
-                    outClaw.setPosition(0.75);
+                    outClaw.setPosition(0.45);
 
                     return  false;
                 }
@@ -183,7 +163,7 @@ public class AutoByRR100test extends LinearOpMode{
             public class OutClawClose implements Action{
                 @Override
                 public boolean run(@NonNull TelemetryPacket packet){
-                    outClaw.setPosition(1);
+                    outClaw.setPosition(0.75);
 
                     return false;
                 }
@@ -205,8 +185,8 @@ public class AutoByRR100test extends LinearOpMode{
             public class Extend implements Action{
                 @Override
                 public boolean run(@NonNull TelemetryPacket packet){
-                    lextend.setPosition(0.8);
-                    rextend.setPosition(0.215);
+                    lextend.setPosition(1);
+                    rextend.setPosition(0.015);
 
                     return false;
                 }
@@ -219,8 +199,8 @@ public class AutoByRR100test extends LinearOpMode{
             public class Retract implements Action{
                 @Override
                 public boolean run(@NonNull TelemetryPacket packet){
-                    lextend.setPosition(1);
-                    rextend.setPosition(0.015);
+                    lextend.setPosition(0.8);
+                    rextend.setPosition(0.215);
 
                     return false;
                 }
@@ -300,10 +280,7 @@ public class AutoByRR100test extends LinearOpMode{
 
     @Override
     public void runOpMode(){
-        Pose2d initialPose = new Pose2d(9.5, -61.25, -Math.PI/2);
-        Pose2d SecondPose = new Pose2d(9.5, -31, -Math.PI/2);
-        Pose2d ThirdPose = new Pose2d(56, -54, -Math.PI/2);
-        Pose2d FourthPose = new Pose2d(5, -54, -Math.PI/2);
+        Pose2d initialPose = new Pose2d(0, 0, -Math.PI/2);
 
         MecanumDrive drive = new MecanumDrive(hardwareMap, initialPose);
         //robot.init();
@@ -315,40 +292,10 @@ public class AutoByRR100test extends LinearOpMode{
         Horizontal horizontal = new Horizontal(hardwareMap);
         IntakeClaw intakeClaw = new IntakeClaw(hardwareMap);
 
-        TrajectoryActionBuilder waitHalf = drive.actionBuilder(initialPose)
-                .waitSeconds(.5);
-        TrajectoryActionBuilder waitOne = drive.actionBuilder(initialPose)
-                .waitSeconds(1);
-
 
 
         TrajectoryActionBuilder tab1 = drive.actionBuilder(initialPose)
-                .lineToY(-30);
-
-        TrajectoryActionBuilder tab2 = drive.actionBuilder(SecondPose)
-                .setTangent(0)
-                .lineToX(37)
-                .setTangent(Math.PI / 2)
-                .splineToConstantHeading(new Vector2d(46, -9), 0)
-                .setTangent(Math.PI /2)
-                .lineToY(-53)
-                .setTangent(Math.PI / 2)
-                .splineToConstantHeading(new Vector2d(56, -11), 0)
-                .setTangent(Math.PI / 2)
-                .lineToY(-54)
-                .lineToY(-48)
-                .waitSeconds(1)
-                .lineToY(-54);
-
-        TrajectoryActionBuilder tab3 = drive.actionBuilder(ThirdPose)
-                .waitSeconds(0.5)
-                .setTangent(0)
-                .lineToX(5);
-
-        TrajectoryActionBuilder tab4 = drive.actionBuilder(FourthPose)
-                .setTangent(Math.PI / 2)
-                .lineToY(-30);
-
+                .lineToY(12);
 
 
         Action trajectoryActionCloseOut = tab1.endTrajectory().fresh()
@@ -363,52 +310,10 @@ public class AutoByRR100test extends LinearOpMode{
         Action trajectoryActionChosen;
         trajectoryActionChosen = tab1.build();
 
-        Action trajectory2;
-        trajectory2 = tab2.build();
-
-        Action trajectory3;
-        trajectory3 = tab3.build();
-
-        Action trajectory4;
-        trajectory4 = tab4.build();
-
-        Action wait05;
-        wait05 = waitHalf.build();
-
-        Action wait1;
-        wait1 = waitOne.build();
-
-
         Actions.runBlocking(
                 new SequentialAction(
-                        new ParallelAction(
-                                outTakeClaw.outClawClose(),
-                                trajectoryActionChosen,
-                                outTake.outTakeHangFirst(),
-                                extension.retract(),
-                                horizontal.horizontalUp()
-                        ),
-                        slides.slidesUp(),
-                        wait05,
-                        outTakeClaw.outClawOpen(),
-                        outTake.outTakeTransfer(),
-                        slides.slidesDown(),
-                        trajectory2,
-                        horizontal.horizontalDown(),
-                        wait1,
-                        intakeClaw.inClawClose(),
-                        wait1,
-                        horizontal.horizontalUp(),
-                        trajectory3,
-                        new ParallelAction(
-                                intakeClaw.inClawOpen(),
-                                outTakeClaw.outClawClose(),
-                                trajectory4,
-                                outTake.outTakeHang()
-                        ),
-                        slides.slidesUp(),
 
-
+                        trajectoryActionChosen,
                         trajectoryActionCloseOut
                 )
         );

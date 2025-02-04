@@ -7,6 +7,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.RobotHardware;
 
 @Autonomous(name =  "Auto By Encoder 100pts", group = "Robot")
+@Disabled
+
 public class AutoByEncoder100 extends LinearOpMode{
     RobotHardware robot = new RobotHardware(this);
     ElapsedTime runtime = new ElapsedTime();
@@ -23,7 +25,18 @@ public class AutoByEncoder100 extends LinearOpMode{
 
         //driving is always 1 inch more than said in code.
 
-        //keeps slides retracted until they are used
+        //keeps slides retracted until they are usedpublic class OutTakeHangFirst implements Action {
+        //                @Override
+        //                public boolean run(@NonNull TelemetryPacket packet) {
+        //                    leftOutTake.setPosition(0.67);
+        //                    rightOutTake.setPosition(0.33);
+        //
+        //                    return false;
+        //                }
+        //            }
+        //            public Action outTakeHangFirst(){
+        //                return new OutTakeHangFirst();
+        //            }
         robot.setIntakePosition(1);
         robot.setOutClawPosition(1);
         robot.setVerticalPower(0);

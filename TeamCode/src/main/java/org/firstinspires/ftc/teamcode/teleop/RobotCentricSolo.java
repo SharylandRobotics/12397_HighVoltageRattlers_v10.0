@@ -79,6 +79,12 @@ public class RobotCentricSolo extends LinearOpMode {
 
             robot.setVerticalPower(vertical);
 
+            double rotation = 1;
+
+                rotation = 0;
+
+            robot.setInClawRotation(rotation);
+
 
             //moves vertical slides
             if(gamepad1.dpad_up){

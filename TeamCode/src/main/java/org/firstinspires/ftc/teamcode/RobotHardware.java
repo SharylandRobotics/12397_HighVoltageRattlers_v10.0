@@ -51,7 +51,7 @@ public class RobotHardware {
     public double SLIDE_START = 0.0 * SLIDE_TICKS_PER_DEGREE;
     public double SLIDE_HIGH_RUNG = 725 * SLIDE_TICKS_PER_DEGREE;
     public double SLIDE_LOW_BASKET = 360.0 * SLIDE_TICKS_PER_DEGREE;
-    public double SLIDE_HIGH_BASKET = - 2100 * SLIDE_TICKS_PER_DEGREE;
+    public double SLIDE_HIGH_BASKET = 2000 * SLIDE_TICKS_PER_DEGREE;
 
     public double slidePosition = (int)SLIDE_START;
 
@@ -251,13 +251,13 @@ public class RobotHardware {
     public void setIntakePosition(double offset){
         //whatever value you subtract from lextend should be added to rextend and vise versa
         if (offset == 1) {
-            //retracted
-            lextend.setPosition(1);
-            rextend.setPosition(0.015);
-        } else if (offset == 0) {
             //extended
-            lextend.setPosition(0.8);
-            rextend.setPosition(0.215);
+            lextend.setPosition(1);
+            rextend.setPosition(0);
+        } else if (offset == 0) {
+            //retracted
+            lextend.setPosition(0.725);
+            rextend.setPosition(0.2);
         } else if (offset == 2){
             lextend.setPosition(0.97);
             rextend.setPosition(.135);
@@ -282,8 +282,8 @@ public class RobotHardware {
             rightOutTake.setPosition(.75);
         }else if (power == 0){
             // a is pressed
-            leftOutTake.setPosition(.67);
-            rightOutTake.setPosition(.33);
+            leftOutTake.setPosition(.65);
+            rightOutTake.setPosition(.35);
         }else if (power == 2){
             leftOutTake.setPosition(.9);
             rightOutTake.setPosition(0.1);
@@ -296,6 +296,7 @@ public class RobotHardware {
 
     public void setInClawPosition(double power){
         if(power == 1){
+            //closed
             inClaw.setPosition(0.4);
         }else if(power == 0){
             inClaw.setPosition(0);
@@ -313,9 +314,9 @@ public class RobotHardware {
     public void setOutClawPosition(double power){
         if(power == 1){
             //button pressed
-            outClaw.setPosition(0.75);
+            outClaw.setPosition(1);
         }else if(power == 0){
-            outClaw.setPosition(0.45);
+            outClaw.setPosition(.7);
         }
     }
 }

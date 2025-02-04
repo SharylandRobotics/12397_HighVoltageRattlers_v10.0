@@ -4,16 +4,23 @@ package org.firstinspires.ftc.teamcode.auto;
 // RR-specific imports
 import com.acmerobotics.roadrunner.*;
 import com.acmerobotics.roadrunner.ftc.Actions;
+import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
+import com.acmerobotics.roadrunner.Action;
+import com.acmerobotics.roadrunner.SequentialAction;
+import com.acmerobotics.roadrunner.Vector2d;
+import com.acmerobotics.roadrunner.*;
+import com.acmerobotics.roadrunner.ftc.Actions;
 
 // Non-RR imports
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.teamcode.MecanumDrive;
 import org.firstinspires.ftc.teamcode.RobotHardware;
 
 import java.lang.Math;
 
-
+@Disabled
 
 @Autonomous(name =  "Auto By RoadRunner 100pts", group = "Robot")
 public class AutoByRR100 extends LinearOpMode{
@@ -30,6 +37,7 @@ public class AutoByRR100 extends LinearOpMode{
                     robot.setIntakePosition(1);
                     robot.setOutClawPosition(1);
                     robot.setVerticalPower(0);
+                    robot.setHorizontalPosition(0);
                 })
                 .lineToY(-34)
                 .stopAndAdd(() ->{
@@ -41,27 +49,27 @@ public class AutoByRR100 extends LinearOpMode{
                     robot.setOutClawPosition(0);
                     robot.setVerticalPower(1);
                 })
-                .setTangent(0)
-                .lineToX(36)
+
                 .setTangent(Math.PI / 2)
                 .splineToConstantHeading(new Vector2d(47, -9), 0)
                 .setTangent(Math.PI /2)
-                .lineToY(-50)
+                .lineToY(-55)
                 .setTangent(Math.PI / 2)
                 .splineToConstantHeading(new Vector2d(56, -11), 0)
                 .setTangent(Math.PI / 2)
-                .lineToY(-50)
+                .lineToY(-55)
                 .setTangent(Math.PI / 2)
                 .splineToConstantHeading(new Vector2d(64, -13), 0)
                 .setTangent(Math.PI / 2)
-                .lineToY(-50)
+                .lineToY(-55)
                 .stopAndAdd(() -> {
-                    robot.setIntakePosition(0);
+                    robot.setHorizontalPosition(1);
                 })
                 .waitSeconds(.5)
                 .stopAndAdd(() ->{
                     robot.setInClawPosition(1);
-                    robot.setIntakePosition(1);
+                    robot.setIntakePosition(2);
+
                 });
 //                .setTangent(Math.PI / 2);
                 //.lineToConstantHeading(new Vector2d(0, -32.5));

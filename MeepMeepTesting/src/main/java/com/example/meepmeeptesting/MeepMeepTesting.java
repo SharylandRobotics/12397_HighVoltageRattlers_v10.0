@@ -19,8 +19,8 @@ public class MeepMeepTesting {
                         .lineTo(new Vector2d(9.5, -32.5))
                         .waitSeconds(3)
                         .strafeLeft(28)
-                        .setTangent(Math.PI / 2)
-                        .splineToConstantHeading(new Vector2d(46, -9), 0)
+                        .setTangent(-Math.PI / 2)
+                        .splineToConstantHeading(new Vector2d(0, -32.5), 0)
                         .forward(40)
                         .setTangent(Math.PI / 2)
                         .splineToConstantHeading(new Vector2d(56, -11), 0)
@@ -28,7 +28,8 @@ public class MeepMeepTesting {
                         .setTangent(Math.PI / 2)
                         .splineToConstantHeading(new Vector2d(61, -13), 0)
                         .forward(40)
-                        .lineToConstantHeading(new Vector2d(0, -32.5))
+                        .setTangent(-Math.PI/2)
+                        .splineToConstantHeading(new Vector2d(8, -31),0)
                         .build());
 
         meepMeep.setBackground(MeepMeep.Background.FIELD_INTOTHEDEEP_JUICE_DARK)
