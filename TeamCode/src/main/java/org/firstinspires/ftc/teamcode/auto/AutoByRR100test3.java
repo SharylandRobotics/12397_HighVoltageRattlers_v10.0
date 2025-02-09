@@ -315,6 +315,9 @@ public class AutoByRR100test3 extends LinearOpMode{
 
         waitForStart();
 
+
+
+
         if (isStopRequested()) return;
 
 

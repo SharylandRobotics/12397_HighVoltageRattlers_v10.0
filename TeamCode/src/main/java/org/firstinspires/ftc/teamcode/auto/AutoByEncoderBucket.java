@@ -29,15 +29,13 @@ public class AutoByEncoderBucket extends LinearOpMode{
         robot.setOutClawPosition(0);
         robot.setOutClawPosition(1);
 //
-        robot.slidePosition = robot.SLIDE_START;
-        robot.setSlidePosition();
+        robot.SetSlidePosition(robot.SLIDE_START);
         robot.setVerticalPower(0);
 //
 //
         robot.driveEncoder(1, -36, -36, -36, -36);
         robot.driveEncoder(.5, -5,-5,5,5);
-        robot.slidePosition = robot.SLIDE_HIGH_BASKET;
-        robot.setSlidePosition();
+        robot.SetSlidePosition(robot.SLIDE_HIGH_BASKET);
         sleep(700);
         robot.setVerticalPower(1);
         sleep(1000);
@@ -48,8 +46,7 @@ public class AutoByEncoderBucket extends LinearOpMode{
         sleep(500);
         robot.setOutClawPosition(0);
         robot.driveEncoder(.75, -19.75,-19.75,19.75,19.75);
-        robot.slidePosition = robot.SLIDE_START;
-        robot.setSlidePosition();
+        robot.SetSlidePosition(robot.SLIDE_START);
         sleep(500);
         robot.setIntakePosition(0);
         sleep(250);
@@ -71,8 +68,7 @@ public class AutoByEncoderBucket extends LinearOpMode{
         sleep(150);
         robot.setInClawPosition(0);
 //deposit second sample into basket
-        robot.slidePosition = robot.SLIDE_HIGH_BASKET;
-        robot.setSlidePosition();
+        robot.SetSlidePosition(robot.SLIDE_HIGH_BASKET);
         sleep(700);
         robot.setVerticalPower(1);
         sleep(1000);
@@ -82,8 +78,7 @@ public class AutoByEncoderBucket extends LinearOpMode{
         robot.setVerticalPower(0);
         sleep(500);
         robot.setOutClawPosition(0);
-        robot.slidePosition = robot.SLIDE_START;
-        robot.setSlidePosition();
+        robot.SetSlidePosition(robot.SLIDE_START);
         //go get the third sample
         robot.driveEncoder(.6,-11.5,-11.5,11.5,11.5);
         robot.setIntakePosition(0);
@@ -109,8 +104,7 @@ public class AutoByEncoderBucket extends LinearOpMode{
         sleep(150);
         robot.setInClawPosition(0);
         //deposit third sample into basket
-        robot.slidePosition = robot.SLIDE_HIGH_BASKET;
-        robot.setSlidePosition();
+        robot.SetSlidePosition(robot.SLIDE_HIGH_BASKET);
         sleep(700);
         robot.setVerticalPower(1);
         sleep(1000);
@@ -120,8 +114,7 @@ public class AutoByEncoderBucket extends LinearOpMode{
         robot.setVerticalPower(0);
         sleep(500);
         robot.setOutClawPosition(0);
-        robot.slidePosition = robot.SLIDE_START;
-        robot.setSlidePosition();
+        robot.SetSlidePosition(robot.SLIDE_START);
 
         robot.driveEncoder(1,50,50,50,50);
     }

@@ -42,12 +42,10 @@ public class AutoByEncoder100 extends LinearOpMode{
         robot.setVerticalPower(0);
 
         robot.driveEncoder(.75,-28.2,-28.2,-28.2,-28.2);
-        robot.slidePosition = robot.SLIDE_HIGH_RUNG;
-        robot.setSlidePosition();
+        robot.SetSlidePosition(robot.SLIDE_HIGH_RUNG);
         robot.setHorizontalPosition(0);
         sleep(950);
-        robot.slidePosition = robot.SLIDE_START;
-        robot.setSlidePosition();
+        robot.SetSlidePosition(robot.SLIDE_START);
         robot.setOutClawPosition(0);
         robot.setVerticalPower(1);
         sleep(900);

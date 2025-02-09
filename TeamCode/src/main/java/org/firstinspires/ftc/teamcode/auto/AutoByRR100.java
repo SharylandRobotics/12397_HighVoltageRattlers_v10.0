@@ -4,12 +4,9 @@ package org.firstinspires.ftc.teamcode.auto;
 // RR-specific imports
 import com.acmerobotics.roadrunner.*;
 import com.acmerobotics.roadrunner.ftc.Actions;
-import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.Vector2d;
-import com.acmerobotics.roadrunner.*;
-import com.acmerobotics.roadrunner.ftc.Actions;
 
 // Non-RR imports
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -41,8 +38,7 @@ public class AutoByRR100 extends LinearOpMode{
                 })
                 .lineToY(-34)
                 .stopAndAdd(() ->{
-                    robot.slidePosition = robot.SLIDE_HIGH_BASKET;
-                    robot.setSlidePosition();
+                    robot.SetSlidePosition(robot.SLIDE_HIGH_BASKET);
                 })
                 .waitSeconds(1)
                 .stopAndAdd(() -> {

@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.auto;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.RobotHardware;
@@ -34,12 +33,10 @@ public class AutoByEncoder60 extends LinearOpMode{
         robot.driveEncoder(.75,-20,-20,-20,-20);
         robot.driveEncoder(.75,7,-7,-7,7);
         robot.driveEncoder(.75,-9.6,-9.6,-9.6,-9.6);
-        robot.slidePosition = robot.SLIDE_HIGH_RUNG;
-        robot.setSlidePosition();
+        robot.SetSlidePosition(robot.SLIDE_HIGH_RUNG);
         robot.setHorizontalPosition(0);
         sleep(950);
-        robot.slidePosition = robot.SLIDE_START;
-        robot.setSlidePosition();
+        robot.SetSlidePosition(robot.SLIDE_START);
         robot.setOutClawPosition(0);
         robot.setVerticalPower(1);
         sleep(900);
@@ -79,13 +76,11 @@ public class AutoByEncoder60 extends LinearOpMode{
 
 
 
-        robot.slidePosition = robot.SLIDE_HIGH_RUNG;
-        robot.setSlidePosition();
+        robot.SetSlidePosition(robot.SLIDE_HIGH_RUNG);
         robot.setHorizontalPosition(0);
 
         sleep(950);
-        robot.slidePosition = robot.SLIDE_START;
-        robot.setSlidePosition();
+        robot.SetSlidePosition(robot.SLIDE_START);
         robot.setOutClawPosition(0);
         robot.setVerticalPower(1);
         sleep(900);

@@ -25,7 +25,7 @@ import java.lang.Math;
 @Config
 @Autonomous(name =  "Auto By RoadRunner 100pts test", group = "Robot")
 
-public class AutoByRR100test extends LinearOpMode{
+public class AutoByRR100test extends LinearOpMode {
     //RobotHardware robot = new RobotHardware(this);
     public class Slides {
         private DcMotor slideMotorLRR;
@@ -111,199 +111,211 @@ public class AutoByRR100test extends LinearOpMode{
             return new slidesDown();
         }
     }
-        private class OutTake  {
-            private Servo leftOutTake;
-            private Servo rightOutTake;
 
-            public OutTake(HardwareMap hardwareMap){
-                leftOutTake = hardwareMap.get(Servo.class, "leftOutTake");
-                rightOutTake = hardwareMap.get(Servo.class, "rightOutTake");
-            }
-            public class OutTakeHangFirst implements Action {
-                @Override
-                public boolean run(@NonNull TelemetryPacket packet) {
-                    leftOutTake.setPosition(0.67);
-                    rightOutTake.setPosition(0.33);
+    private class OutTake {
+        private Servo leftOutTake;
+        private Servo rightOutTake;
 
-                    return false;
-                }
-            }
-            public Action outTakeHangFirst(){
-                return new OutTakeHangFirst();
-            }
-
-            public class OutTakeHang implements Action {
-                @Override
-                public boolean run(@NonNull TelemetryPacket packet) {
-                    leftOutTake.setPosition(0.65);
-                    rightOutTake.setPosition(0.35);
-
-                    return false;
-                }
-            }
-            public Action outTakeHang(){
-                return new OutTakeHang();
-            }
-
-
-            public class OutTakeTransfer implements Action {
-                @Override
-                public boolean run(@NonNull TelemetryPacket packet) {
-                    leftOutTake.setPosition(0.25);
-                    rightOutTake.setPosition(0.75);
-
-                    return false;
-                }
-            }
-            public Action outTakeTransfer(){
-                return new OutTakeTransfer();
-            }
-
+        public OutTake(HardwareMap hardwareMap) {
+            leftOutTake = hardwareMap.get(Servo.class, "leftOutTake");
+            rightOutTake = hardwareMap.get(Servo.class, "rightOutTake");
         }
 
-        public class OutTakeClaw {
-            private Servo outClaw;
+        public class OutTakeHangFirst implements Action {
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                leftOutTake.setPosition(0.67);
+                rightOutTake.setPosition(0.33);
 
-            public OutTakeClaw(HardwareMap hardwareMap){
-                outClaw = hardwareMap.get(Servo.class, "outClaw");
-            }
-
-            public class OutClawOpen implements Action{
-                @Override
-                public boolean run(@NonNull TelemetryPacket packet) {
-                    outClaw.setPosition(0.75);
-
-                    return  false;
-                }
-            }
-            public Action outClawOpen(){
-                return new OutClawOpen();
-            }
-
-            public class OutClawClose implements Action{
-                @Override
-                public boolean run(@NonNull TelemetryPacket packet){
-                    outClaw.setPosition(1);
-
-                    return false;
-                }
-            }
-            public Action outClawClose(){
-                return new OutClawClose();
+                return false;
             }
         }
 
-        public class Extension {
-            private Servo lextend;
-            private Servo rextend;
-
-            public Extension(HardwareMap hardwareMap){
-                lextend = hardwareMap.get(Servo.class, "lextend");
-                rextend = hardwareMap.get(Servo.class, "rextend");
-            }
-
-            public class Extend implements Action{
-                @Override
-                public boolean run(@NonNull TelemetryPacket packet){
-                    lextend.setPosition(0.8);
-                    rextend.setPosition(0.215);
-
-                    return false;
-                }
-            }
-
-            public Action extend(){
-                return new Extend();
-            }
-
-            public class Retract implements Action{
-                @Override
-                public boolean run(@NonNull TelemetryPacket packet){
-                    lextend.setPosition(1);
-                    rextend.setPosition(0.015);
-
-                    return false;
-                }
-            }
-
-            public Action retract(){
-                return new Retract();
-            }
-
+        public Action outTakeHangFirst() {
+            return new OutTakeHangFirst();
         }
 
-        public class Horizontal{
-            private Servo horizontal1;
+        public class OutTakeHang implements Action {
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                leftOutTake.setPosition(0.65);
+                rightOutTake.setPosition(0.35);
 
-            public Horizontal(HardwareMap hardwareMap){
-                horizontal1 = hardwareMap.get(Servo.class, "horizontal1");
-            }
-            public class HorizontalUp implements Action{
-                @Override
-                public boolean run(@NonNull TelemetryPacket packet){
-                    horizontal1.setPosition(0.25);
-
-                    return false;
-                }
-            }
-
-            public Action horizontalUp(){
-                return new HorizontalUp();
-            }
-
-            public class HorizontalDown implements Action{
-                @Override
-                public boolean run(@NonNull TelemetryPacket packet){
-                    horizontal1.setPosition(0.75);
-
-                    return false;
-                }
-            }
-
-            public Action horizontalDown(){
-                return new HorizontalDown();
-            }
-
-        }
-
-        public class IntakeClaw{
-            private Servo inClaw;
-
-            public IntakeClaw(HardwareMap hardwareMap){
-                inClaw = hardwareMap.get(Servo.class, "inClaw");
-            }
-            public class InClawClose implements Action{
-                @Override
-                public boolean run(@NonNull TelemetryPacket packet){
-                    inClaw.setPosition(0.4);
-
-                    return false;
-                }
-            }
-            public Action inClawClose(){
-                return new InClawClose();
-            }
-
-            public class InClawOpen implements Action{
-                @Override
-                public boolean run(@NonNull TelemetryPacket packet){
-                    inClaw.setPosition(0);
-
-                    return false;
-                }
-            }
-
-            public Action inClawOpen() {
-                return new InClawOpen();
+                return false;
             }
         }
+
+        public Action outTakeHang() {
+            return new OutTakeHang();
+        }
+
+
+        public class OutTakeTransfer implements Action {
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                leftOutTake.setPosition(0.25);
+                rightOutTake.setPosition(0.75);
+
+                return false;
+            }
+        }
+
+        public Action outTakeTransfer() {
+            return new OutTakeTransfer();
+        }
+
+    }
+
+    public class OutTakeClaw {
+        private Servo outClaw;
+
+        public OutTakeClaw(HardwareMap hardwareMap) {
+            outClaw = hardwareMap.get(Servo.class, "outClaw");
+        }
+
+        public class OutClawOpen implements Action {
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                outClaw.setPosition(0.75);
+
+                return false;
+            }
+        }
+
+        public Action outClawOpen() {
+            return new OutClawOpen();
+        }
+
+        public class OutClawClose implements Action {
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                outClaw.setPosition(1);
+
+                return false;
+            }
+        }
+
+        public Action outClawClose() {
+            return new OutClawClose();
+        }
+    }
+
+    public class Extension {
+        private Servo lextend;
+        private Servo rextend;
+
+        public Extension(HardwareMap hardwareMap) {
+            lextend = hardwareMap.get(Servo.class, "lextend");
+            rextend = hardwareMap.get(Servo.class, "rextend");
+        }
+
+        public class Extend implements Action {
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                lextend.setPosition(0.8);
+                rextend.setPosition(0.215);
+
+                return false;
+            }
+        }
+
+        public Action extend() {
+            return new Extend();
+        }
+
+        public class Retract implements Action {
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                lextend.setPosition(1);
+                rextend.setPosition(0.015);
+
+                return false;
+            }
+        }
+
+        public Action retract() {
+            return new Retract();
+        }
+
+    }
+
+    public class Horizontal {
+        private Servo horizontal1;
+
+        public Horizontal(HardwareMap hardwareMap) {
+            horizontal1 = hardwareMap.get(Servo.class, "horizontal1");
+        }
+
+        public class HorizontalUp implements Action {
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                horizontal1.setPosition(0.2325);
+
+                return false;
+            }
+        }
+
+        public Action horizontalUp() {
+            return new HorizontalUp();
+        }
+
+        public class HorizontalDown implements Action {
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                horizontal1.setPosition(0.7585);
+
+                return false;
+            }
+        }
+
+        public Action horizontalDown() {
+            return new HorizontalDown();
+        }
+
+    }
+
+    public class IntakeClaw {
+        private Servo inClaw;
+
+        public IntakeClaw(HardwareMap hardwareMap) {
+            inClaw = hardwareMap.get(Servo.class, "inClaw");
+        }
+
+        public class InClawClose implements Action {
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                inClaw.setPosition(0.4);
+
+                return false;
+            }
+        }
+
+        public Action inClawClose() {
+            return new InClawClose();
+        }
+
+        public class InClawOpen implements Action {
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                inClaw.setPosition(0);
+
+                return false;
+            }
+        }
+
+        public Action inClawOpen() {
+            return new InClawOpen();
+        }
+    }
+
 
     @Override
-    public void runOpMode(){
-        Pose2d initialPose = new Pose2d(9.5, -61.25, -Math.PI/2);
-        Pose2d SecondPose = new Pose2d(9.5, -31, -Math.PI/2);
-        Pose2d ThirdPose = new Pose2d(56, -54, -Math.PI/2);
-        Pose2d FourthPose = new Pose2d(5, -54, -Math.PI/2);
+    public void runOpMode() {
+        Pose2d initialPose = new Pose2d(9.5, -61.25, -Math.PI / 2);
+        Pose2d SecondPose = new Pose2d(9.5, -31, -Math.PI / 2);
+        Pose2d ThirdPose = new Pose2d(56, -51, -Math.PI / 2);
+        Pose2d FourthPose = new Pose2d(5, -51, -Math.PI / 2);
+        Pose2d FifthPose = new Pose2d(5,-28, -Math.PI /2);
 
         MecanumDrive drive = new MecanumDrive(hardwareMap, initialPose);
         //robot.init();
@@ -321,16 +333,16 @@ public class AutoByRR100test extends LinearOpMode{
                 .waitSeconds(1);
 
 
+        Action tab1 = drive.actionBuilder(initialPose)
+                .lineToY(-30)
+                .build();
 
-        TrajectoryActionBuilder tab1 = drive.actionBuilder(initialPose)
-                .lineToY(-30);
-
-        TrajectoryActionBuilder tab2 = drive.actionBuilder(SecondPose)
+        Action tab2 = drive.actionBuilder(SecondPose)
                 .setTangent(0)
                 .lineToX(37)
                 .setTangent(Math.PI / 2)
                 .splineToConstantHeading(new Vector2d(46, -9), 0)
-                .setTangent(Math.PI /2)
+                .setTangent(Math.PI / 2)
                 .lineToY(-53)
                 .setTangent(Math.PI / 2)
                 .splineToConstantHeading(new Vector2d(56, -11), 0)
@@ -338,39 +350,36 @@ public class AutoByRR100test extends LinearOpMode{
                 .lineToY(-54)
                 .lineToY(-48)
                 .waitSeconds(1)
-                .lineToY(-54);
+                .lineToY(-51)
+                .build();
 
-        TrajectoryActionBuilder tab3 = drive.actionBuilder(ThirdPose)
+        Action tab3 = drive.actionBuilder(ThirdPose)
                 .waitSeconds(0.5)
                 .setTangent(0)
-                .lineToX(5);
-
-        TrajectoryActionBuilder tab4 = drive.actionBuilder(FourthPose)
-                .setTangent(Math.PI / 2)
-                .lineToY(-30);
-
-
-
-        Action trajectoryActionCloseOut = tab1.endTrajectory().fresh()
+                .lineToX(5)
                 .build();
+
+        Action tab4 = drive.actionBuilder(FourthPose)
+                .setTangent(Math.PI / 2)
+                .lineToY(-28)
+                .build();
+
+        Action tab5 = drive.actionBuilder(FifthPose)
+                .setTangent(0)
+                .lineToX(12)
+                .build();
+
+
+
+        Actions.runBlocking(slides.slidesDown());
+        Actions.runBlocking(outTakeClaw.outClawClose());
+        Actions.runBlocking(horizontal.horizontalUp());
+        Actions.runBlocking(intakeClaw.inClawOpen());
 
         waitForStart();
 
         if (isStopRequested()) return;
 
-
-
-        Action trajectoryActionChosen;
-        trajectoryActionChosen = tab1.build();
-
-        Action trajectory2;
-        trajectory2 = tab2.build();
-
-        Action trajectory3;
-        trajectory3 = tab3.build();
-
-        Action trajectory4;
-        trajectory4 = tab4.build();
 
         Action wait05;
         wait05 = waitHalf.build();
@@ -383,34 +392,41 @@ public class AutoByRR100test extends LinearOpMode{
                 new SequentialAction(
                         new ParallelAction(
                                 outTakeClaw.outClawClose(),
-                                trajectoryActionChosen,
+                                tab1,
                                 outTake.outTakeHangFirst(),
                                 extension.retract(),
                                 horizontal.horizontalUp()
                         ),
                         slides.slidesUp(),
-                        wait05,
+                        sleepAction(100),
                         outTakeClaw.outClawOpen(),
                         outTake.outTakeTransfer(),
                         slides.slidesDown(),
-                        trajectory2,
                         horizontal.horizontalDown(),
+                        tab2,
+
                         wait1,
                         intakeClaw.inClawClose(),
-                        wait1,
+                        sleepAction(500),
                         horizontal.horizontalUp(),
-                        trajectory3,
+                        tab3,
+                        outTakeClaw.outClawClose(),
+                        sleepAction(100),
                         new ParallelAction(
                                 intakeClaw.inClawOpen(),
-                                outTakeClaw.outClawClose(),
-                                trajectory4,
+                                tab4,
                                 outTake.outTakeHang()
                         ),
-                        slides.slidesUp(),
-
-
-                        trajectoryActionCloseOut
+                        slides.slidesUp()
+                        //tab5
                 )
         );
+    }
+
+    private Action sleepAction(long milliseconds) {
+        return (TelemetryPacket packet) -> {
+            sleep(milliseconds);
+            return false;
+        };
     }
 }

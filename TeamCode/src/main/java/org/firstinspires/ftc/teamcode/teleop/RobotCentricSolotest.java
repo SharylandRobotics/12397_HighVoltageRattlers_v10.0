@@ -82,12 +82,12 @@ public class RobotCentricSolotest extends LinearOpMode {
 
             //moves vertical slides
             if(gamepad1.dpad_up){
-                robot.slidePosition = robot.SLIDE_HIGH_BASKET;
+                slide = robot.SLIDE_HIGH_BASKET;
             }else if (gamepad1.dpad_down){
-                robot.slidePosition = robot.SLIDE_START;
+                slide = robot.SLIDE_START;
             }
 
-            robot.setSlidePosition();
+            robot.SetSlidePosition(slide);
 
             if (gamepad1.x) {
                 horizontalOffset = 1;

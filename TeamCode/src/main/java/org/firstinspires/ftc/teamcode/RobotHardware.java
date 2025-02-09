@@ -1,5 +1,8 @@
 package org.firstinspires.ftc.teamcode;
 
+import androidx.annotation.NonNull;
+import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
+import com.acmerobotics.roadrunner.Action;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -164,7 +167,6 @@ public class RobotHardware {
     public void driveEncoder(double speed, double leftFrontInches, double leftBackInches, double rightFrontInches, double rightBackInches){
         // drives only while myOpMode is active
         if(myOpMode.opModeIsActive()){
-            setSlidePosition();
 
 
             //determine new target position
@@ -214,7 +216,8 @@ public class RobotHardware {
     }
 
 
-    public void setSlidePosition(){
+
+    public void SetSlidePosition(double slidePosition){
         slideMotorL.setTargetPosition((int)(slidePosition));
         slideMotorR.setTargetPosition((int)(slidePosition));
 
@@ -256,11 +259,11 @@ public class RobotHardware {
             rextend.setPosition(0);
         } else if (offset == 0) {
             //retracted
-            lextend.setPosition(0.725);
-            rextend.setPosition(0.2);
+            lextend.setPosition(0.8);
+            rextend.setPosition(0.2 * 360 / 300);
         } else if (offset == 2){
             lextend.setPosition(0.97);
-            rextend.setPosition(.135);
+            rextend.setPosition(.135 * 360 / 300);
         }
     }
 
@@ -273,6 +276,7 @@ public class RobotHardware {
             horizontal1.setPosition(0.75);
         }
     }
+
 
     //changes here affect both duo and solo , add to left and right.
     public void setVerticalPower(double power) {
@@ -319,7 +323,122 @@ public class RobotHardware {
             outClaw.setPosition(.7);
         }
     }
+
+
+    // roadrunner set actions
+
+
+    public class SetSlidePosition implements Action {
+        private final double position;
+
+        public SetSlidePosition(double position){
+            this.position = position;
+        }
+
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet){
+            SetSlidePosition(position);
+            return false;
+        }
+    }
+
+    public Action setSlidePosition(double slidePosition){
+        return new SetSlidePosition(slidePosition);
+    }
+
+    public class SetIntakePosition implements Action {
+        private final double position;
+
+        public SetIntakePosition(double position){
+            this.position = position;
+        }
+
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet){
+            setIntakePosition(position);
+            return false;
+        }
+    }
+
+    public Action SetIntakePosition(double position){
+        return new SetIntakePosition(position);
+    }
+
+    public class setHorizontalPosition implements Action{
+        private final double position;
+
+        public setHorizontalPosition(double position){
+            this.position = position;
+        }
+
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet){
+            setHorizontalPosition(position);
+            return false;
+        }
+
+    }
+
+    public Action SetHorizontalPosition (double position){
+        return new setHorizontalPosition(position);
+    }
+
+    public class setVerticalPower implements Action{
+        private final double position;
+
+        public setVerticalPower(double position){
+            this.position = position;
+        }
+
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet){
+            setVerticalPower(position);
+            return false;
+        }
+
+    }
+
+    public Action SetVerticalPower(double position){
+        return new setVerticalPower(position);
+    }
+
+
+    public class SetInClawPosition implements Action{
+        private final double position;
+
+        public SetInClawPosition(double position){
+            this.position = position;
+        }
+
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet){
+            setInClawPosition(position);
+            return false;
+        }
+    }
+
+    public Action SetInClawPosition(double position){
+        return new SetInClawPosition(position);
+    }
+
+    public class setOutClawPosition implements Action {
+        private final double position;
+
+        public setOutClawPosition(double position){
+            this.position = position;
+        }
+
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet){
+            setOutClawPosition(position);
+            return false;
+        }
+
+    }
+
+    public Action SetOutClawPosition(double position){
+        return new setOutClawPosition(position);
+    }
+
 }
-
-
 

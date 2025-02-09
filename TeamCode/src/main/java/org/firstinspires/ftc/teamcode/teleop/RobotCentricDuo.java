@@ -96,16 +96,16 @@ public class RobotCentricDuo extends LinearOpMode {
 
             //moves vertical slides
             if(gamepad2.dpad_up){
-                robot.slidePosition = robot.SLIDE_HIGH_RUNG;
+                slide = robot.SLIDE_HIGH_RUNG;
             }else if (gamepad2.dpad_down){
                 vertical = 1;
-                robot.slidePosition = robot.SLIDE_START;
+                slide = robot.SLIDE_START;
             } else if (gamepad2.dpad_left){
-                robot.slidePosition = robot.SLIDE_HIGH_BASKET;
+                slide = robot.SLIDE_HIGH_BASKET;
             }
 
             robot.setVerticalPower(vertical);
-            robot.setSlidePosition();
+            robot.SetSlidePosition(slide);
 
             if (gamepad1.x) {
                 horizontalOffset = 1;
